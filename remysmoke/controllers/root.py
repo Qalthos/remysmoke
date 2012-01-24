@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Main Controller"""
 
+from datetime import datetime, timedelta
+
 from tg import expose, flash, require, url, lurl, request, redirect
 from tg.i18n import ugettext as _, lazy_ugettext as l_
 from remysmoke import model
@@ -40,33 +42,56 @@ class RootController(BaseController):
     @expose('remysmoke.templates.index')
     def index(self):
         """Handle the front-page."""
-        return dict(page='index')
+        return dict()
 
-    @expose('remysmoke.templates.about')
-    def about(self):
-        """Handle the 'about' page."""
-        return dict(page='about')
+    @expose('remysmoke.templates.week')
+    def week(self):
+        """Show cigarettes smoked per week (daily)."""
+        past = datetime.today() - timedelta(weeks=1)
+        data = DBSession.query(Cigarette).filter(Cigarette.date >= past).all()
+        final_data = [[] for x in range(7)]
+        for datum in data:
+            delta = (datum.date - past).days
+            final_data[delta].append(datum)
+        return dict(data=final_data)
 
-    @expose('remysmoke.templates.environ')
-    def environ(self):
-        """This method showcases TG's access to the wsgi environment."""
-        return dict(environment=request.environ)
+    @expose('remysmoke.templates.month')
+    def month(self):
+        """Show cigarettes smoked per month (daily)."""
+        past = datetime.today() - timedelta(weeks=4)
+        data = DBSession.query(Cigarette).filter(Cigarette.date >= past).all()
+        final_data = [[] for x in range(31)]
+        for datum in data:
+            delta = (datum.date - past).days
+            final_data[delta].append(datum)
+        return dict(data=final_data)
 
-    @expose('remysmoke.templates.data')
-    @expose('json')
-    def data(self, **kw):
-        """This method showcases how you can use the same controller for a data page and a display page"""
-        return dict(params=kw)
-    @expose('remysmoke.templates.authentication')
-    def auth(self):
-        """Display some information about auth* on this application."""
-        return dict(page='auth')
+    @expose('remysmoke.templates.year')
+    def year(self):
+        """Show cigarettes smoked per year (weekly)."""
+        past = datetime.today() - timedelta(weeks=52)
+        data = DBSession.query(Cigarette).filter(Cigarette.date >= past).all()
+        final_data = [[] for x in range(52)]
+        for datum in data:
+            delta = (datum.date - past).days / 7
+            final_data[delta].append(datum)
+        return dict(data=final_data)
 
-    @expose('remysmoke.templates.index')
-    @require(predicates.has_permission('manage', msg=l_('Only for managers')))
-    def manage_permission_only(self, **kw):
-        """Illustrate how a page for managers only works."""
-        return dict(page='managers stuff')
+    @expose('remysmoke.templates.stats')
+    def stats(self):
+        """Show some stats about cigarette consumption."""
+        smoke_data = DBSession.query(Cigarette).all()
+        oldest_data = datetime.today()
+        for datum in smoke_data:
+            if oldest_data > datum.date:
+                oldest_data = datum.date
+
+        timespan = datetime.today() - oldest_data
+        spd = 1.0 * len(smoke_data) / timespan.days
+        dpp = 1.0 * timespan.days * 20 / len(smoke_data)
+        cpm = len(smoke_data) * 10.50 / (20 * timespan.days / 30)
+
+        return dict(smokes=spd, lifespan=dpp, cost=cpm)
 
     @expose('remysmoke.templates.form')
     #@require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
