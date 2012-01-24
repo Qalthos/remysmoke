@@ -12,6 +12,8 @@ from tgext.admin.controller import AdminController
 
 from remysmoke.lib.base import BaseController
 from remysmoke.controllers.error import ErrorController
+from remysmoke.model.smoke import Cigarette
+from remysmoke.widgets.smoke import register_smoke_form
 
 __all__ = ['RootController']
 
@@ -66,11 +68,22 @@ class RootController(BaseController):
         """Illustrate how a page for managers only works."""
         return dict(page='managers stuff')
 
-    @expose('remysmoke.templates.index')
-    @require(predicates.is_user('editor', msg=l_('Only for the editor')))
-    def editor_user_only(self, **kw):
-        """Illustrate how a page exclusive for the editor works."""
-        return dict(page='editor stuff')
+    @expose('remysmoke.templates.form')
+    #@require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
+    def smoke(self, **kw):
+        """Register a new smoke."""
+        return dict(form=register_smoke_form())
+
+    @expose()
+    #@require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
+    def register_smoke(self, **kw):
+        """Try to add the smoking data."""
+        smoke_data = Cigarette()
+        smoke_data.date = datetime.strptime(kw['date'], "%Y/%m/%d %H:%M")
+        smoke_data.user = request.identity['repoze.who.userid']
+        smoke_data.justification = kw['justification']
+        DBSession.add(smoke_data)
+        redirect('/')
 
     @expose('remysmoke.templates.login')
     def login(self, came_from=lurl('/')):

@@ -93,22 +93,21 @@
 </%def>
 <%def name="main_menu()">
   <ul id="mainmenu">
-    <li class="first"><a href="${tg.url('/')}" class="${('', 'active')[page=='index']}">Welcome</a></li>
-        <li><a href="${tg.url('/about')}" class="${('', 'active')[page=='about']}">About</a></li>
-        <li><a href="${tg.url('/environ')}" class="${('', 'active')[page=='environ']}">WSGI Environment</a></li>
-        <li><a href="${tg.url('/data')}" class="${('', 'active')[page=='data']}">Content-Types</a></li>
+    <li class="first"><a href="${tg.url('/')}" class="${('', 'active')}">Welcome</a></li>
+        <li><a href="${tg.url('/week')}" class="${('', 'active')}">Weekly Charts</a></li>
+        <li><a href="${tg.url('/month')}" class="${('', 'active')}">Monthly Charts</a></li>
+        <li><a href="${tg.url('/year')}" class="${('', 'active')}">Annual Charts</a></li>
+        <li><a href="${tg.url('/stats')}" class="${('', 'active')}">Stats</a></li>
 
-    % if tg.auth_stack_enabled:
-        <li><a href="${tg.url('/auth')}" class="${('', 'active')[page=='auth']}">Authentication</a></li>
-    % endif
-        <li><a href="http://groups.google.com/group/turbogears">Contact</a></li>
     % if tg.auth_stack_enabled:
       <span>
           % if not request.identity:
             <li id="login" class="loginlogout"><a href="${tg.url('/login')}">Login</a></li>
           % else:
+            %if 'edit' in request.identity['permissions']:
+              <li id="admin"><a href="${tg.url('/smoke')}">Add Smoke</a></li>
+            %endif
             <li id="login" class="loginlogout"><a href="${tg.url('/logout_handler')}">Logout</a></li>
-            <li id="admin" class="loginlogout"><a href="${tg.url('/admin')}">Admin</a></li>
           % endif
       </span>
     % endif
