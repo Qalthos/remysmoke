@@ -1,0 +1,4 @@
+recursive-include remysmoke/public *
+include remysmoke/public/favicon.ico
+recursive-include remysmoke/i18n *
+recursive-include remysmoke/templates *
