@@ -80,18 +80,24 @@ class RootController(BaseController):
     @expose('remysmoke.templates.stats')
     def stats(self):
         """Show some stats about cigarette consumption."""
-        smoke_data = DBSession.query(Cigarette).all()
-        oldest_data = datetime.today()
-        for datum in smoke_data:
-            if oldest_data > datum.date:
-                oldest_data = datum.date
+        smoke_users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
+        data = {}
+        for (user,) in smoke_users:
+            smoke_data = DBSession.query(Cigarette).filter_by(user=user).all()
 
-        timespan = datetime.today() - oldest_data
-        spd = 1.0 * len(smoke_data) / timespan.days
-        dpp = 1.0 * timespan.days * 20 / len(smoke_data)
-        cpm = len(smoke_data) * 10.50 / (20 * timespan.days / 30)
+            oldest_data = datetime.today()
+            for datum in smoke_data:
+                if oldest_data > datum.date:
+                    oldest_data = datum.date
 
-        return dict(smokes=spd, lifespan=dpp, cost=cpm)
+            timespan = datetime.today() - oldest_data
+            spd = 1.0 * len(smoke_data) / timespan.days
+            dpp = 1.0 * timespan.days * 20 / len(smoke_data)
+            cpm = len(smoke_data) * 10.50 / (20 * timespan.days / 30)
+            data[user] = dict(smokes=spd, lifespan=dpp, cost=cpm)
+
+        print data
+        return dict(data=data)
 
     @expose('remysmoke.templates.form')
     #@require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
