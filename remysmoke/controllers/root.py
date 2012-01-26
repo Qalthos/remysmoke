@@ -47,35 +47,30 @@ class RootController(BaseController):
     @expose('remysmoke.templates.week')
     def week(self):
         """Show cigarettes smoked per week (daily)."""
-        past = datetime.today() - timedelta(weeks=1)
-        data = DBSession.query(Cigarette).filter(Cigarette.date >= past).all()
-        final_data = [[] for x in range(7)]
-        for datum in data:
-            delta = (datum.date - past).days
-            final_data[delta].append(datum)
-        return dict(data=final_data)
+        data = self.time_data(1, 7)
+        return dict(data=data)
 
     @expose('remysmoke.templates.month')
     def month(self):
         """Show cigarettes smoked per month (daily)."""
-        past = datetime.today() - timedelta(weeks=4)
-        data = DBSession.query(Cigarette).filter(Cigarette.date >= past).all()
-        final_data = [[] for x in range(31)]
-        for datum in data:
-            delta = (datum.date - past).days
-            final_data[delta].append(datum)
-        return dict(data=final_data)
+        data = self.time_data(4, 28)
+        return dict(data=data)
 
     @expose('remysmoke.templates.year')
     def year(self):
         """Show cigarettes smoked per year (weekly)."""
-        past = datetime.today() - timedelta(weeks=52)
+        data = self.time_data(52, 52, 7)
+        return dict(data=data)
+
+    def time_data(self, weeks, frequency, period=1):
+        """Get information from a specified interval."""
+        past = datetime.today() - timedelta(weeks=weeks)
         data = DBSession.query(Cigarette).filter(Cigarette.date >= past).all()
-        final_data = [[] for x in range(52)]
+        final_data = [[] for x in range(frequency)]
         for datum in data:
-            delta = (datum.date - past).days / 7
+            delta = (datum.date - past).days / period
             final_data[delta].append(datum)
-        return dict(data=final_data)
+        return final_data
 
     @expose('remysmoke.templates.stats')
     def stats(self):
