@@ -85,10 +85,10 @@ class RootController(BaseController):
                 if oldest_data > datum.date:
                     oldest_data = datum.date
 
-            timespan = datetime.today() - oldest_data
-            spd = 1.0 * len(smoke_data) / timespan.days
-            dpp = 1.0 * timespan.days * 20 / len(smoke_data)
-            cpm = len(smoke_data) * 10.50 / (20 * timespan.days / 30)
+            timespan = max((datetime.today() - oldest_data).days + 1, 1)
+            spd = 1.0 * len(smoke_data) / timespan
+            dpp = 1.0 * timespan * 20 / len(smoke_data)
+            cpm = len(smoke_data) * 10.50 * 30 / (20 * timespan)
             data[user] = dict(smokes=spd, lifespan=dpp, cost=cpm)
 
         print data
