@@ -37,7 +37,7 @@ def bootstrap(command, conf, vars):
         model.DBSession.add(g)
 
         p = model.Permission()
-        p.permission_name = u'edit'
+        p.permission_name = u'smoke'
         p.description = u'This permission gives rights to add smoking data'
         p.groups.append(g)
 

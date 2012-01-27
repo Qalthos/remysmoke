@@ -112,13 +112,13 @@ class RootController(BaseController):
         return dict(data=data)
 
     @expose('remysmoke.templates.form')
-    #@require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
+    @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
     def smoke(self, **kw):
         """Register a new smoke."""
         return dict(form=register_smoke_form())
 
     @expose()
-    #@require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
+    @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
     def register_smoke(self, **kw):
         """Try to add the smoking data."""
         smoke_data = Cigarette()
