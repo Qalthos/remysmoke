@@ -1,5 +1,6 @@
-*.db
 *.pyc
 *.pyo
+*.egg*
+*.db*
+*.swp
 data
-
