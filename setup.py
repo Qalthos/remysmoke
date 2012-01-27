@@ -37,6 +37,7 @@ install_requires=[
     "repoze.what-quickstart",
     "repoze.what.plugins.sql>=1.0.1",
     "tw.forms",
+    "tw2.protovis.conventional",
     ]
 
 if sys.version_info[:2] == (2,4):

@@ -1,5 +1,3 @@
 <%inherit file="local:templates.master"/>
 
-${data}
-
-<div id=chart></div>
+${chart.display() | n}

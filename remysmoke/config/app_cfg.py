@@ -35,6 +35,8 @@ base_config.model = remysmoke.model
 base_config.DBSession = remysmoke.model.DBSession
 # Configure the authentication backend
 
+base_config.use_toscawidgets2 = True
+
 # YOU MUST CHANGE THIS VALUE IN PRODUCTION TO SECURE YOUR APP 
 base_config.sa_auth.cookie_secret = "ChangeME" 
 

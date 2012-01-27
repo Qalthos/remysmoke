@@ -11,6 +11,7 @@ from remysmoke.controllers.secure import SecureController
 from remysmoke.model import DBSession, metadata
 from tgext.admin.tgadminconfig import TGAdminConfig
 from tgext.admin.controller import AdminController
+from tw2.protovis.conventional import LineChart
 
 from remysmoke.lib.base import BaseController
 from remysmoke.controllers.error import ErrorController
@@ -44,33 +45,49 @@ class RootController(BaseController):
         """Handle the front-page."""
         return dict()
 
-    @expose('remysmoke.templates.week')
+    @expose('remysmoke.templates.chart')
     def week(self):
         """Show cigarettes smoked per week (daily)."""
-        data = self.time_data(1, 7)
-        return dict(data=data)
+        chart = self.time_data(1, 7)
+        return dict(chart=chart)
 
-    @expose('remysmoke.templates.month')
+    @expose('remysmoke.templates.chart')
     def month(self):
         """Show cigarettes smoked per month (daily)."""
-        data = self.time_data(4, 28)
-        return dict(data=data)
+        chart = self.time_data(4, 28)
+        return dict(chart=chart)
 
-    @expose('remysmoke.templates.year')
+    @expose('remysmoke.templates.chart')
     def year(self):
         """Show cigarettes smoked per year (weekly)."""
-        data = self.time_data(52, 52, 7)
-        return dict(data=data)
+        chart = self.time_data(52, 52, 7)
+        return dict(chart=chart)
 
     def time_data(self, weeks, frequency, period=1):
         """Get information from a specified interval."""
         past = datetime.today() - timedelta(weeks=weeks)
-        data = DBSession.query(Cigarette).filter(Cigarette.date >= past).all()
-        final_data = [[] for x in range(frequency)]
-        for datum in data:
-            delta = (datum.date - past).days / period
-            final_data[delta].append(datum)
-        return final_data
+        users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
+        final_data = {}
+        for (user,) in users:
+            user = DBSession.query(User).filter_by
+            data = DBSession.query(Cigarette).filter_by(user=user)\
+                    .filter(Cigarette.date >= past).all()
+            freq_data = [{'x': mktime((past + timedelta(days=x))\
+                    .timetuple()), 'y': 0} for x in range(frequency)]
+
+            for datum in data:
+                delta = period - (datum.date - past).days / period - 1
+                freq_data[delta]['y'] += 1
+
+            final_data[str(user)] = freq_data
+
+        chart = LineChart(p_data = final_data.values(),
+                p_labels = final_data.keys(),
+                p_time_series = True,
+                p_time_series_format = '%m/%d %I:%M',
+                p_width = 900
+            )
+        return chart
 
     @expose('remysmoke.templates.stats')
     def stats(self):
