@@ -2,6 +2,7 @@
 """Main Controller"""
 
 from datetime import datetime, timedelta
+from time import mktime
 
 from tg import expose, flash, require, url, lurl, request, redirect
 from tg.i18n import ugettext as _, lazy_ugettext as l_
@@ -16,6 +17,7 @@ from tw2.protovis.conventional import LineChart
 from remysmoke.lib.base import BaseController
 from remysmoke.controllers.error import ErrorController
 from remysmoke.model.smoke import Cigarette
+from remysmoke.model.auth import User
 from remysmoke.widgets.smoke import register_smoke_form
 
 __all__ = ['RootController']
@@ -94,21 +96,31 @@ class RootController(BaseController):
         """Show some stats about cigarette consumption."""
         smoke_users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
         data = {}
+        now = datetime.today()
         for (user,) in smoke_users:
-            smoke_data = DBSession.query(Cigarette).filter_by(user=user).all()
+            smoke_data = DBSession.query(Cigarette).filter_by(user=user).order_by(Cigarette.date).all()
+            (user,) = DBSession.query(User.display_name).filter_by(user_name=user).one()
 
-            oldest_data = datetime.today()
+            newest_data = now - smoke_data[-1].date
+            oldest_data = now
+
+            streak = timedelta()
+            last = smoke_data[0].date
+
             for datum in smoke_data:
                 if oldest_data > datum.date:
                     oldest_data = datum.date
+                if datum.date - last > streak:
+                    streak = datum.date - last
+                last = datum.date
 
             timespan = max((datetime.today() - oldest_data).days + 1, 1)
             spd = 1.0 * len(smoke_data) / timespan
             dpp = 1.0 * timespan * 20 / len(smoke_data)
             cpm = len(smoke_data) * 10.50 * 30 / (20 * timespan)
-            data[user] = dict(smokes=spd, lifespan=dpp, cost=cpm)
+            data[user] = dict(smokes=spd, lifespan=dpp, cost=cpm,
+                    now=newest_data, best=streak)
 
-        print data
         return dict(data=data)
 
     @expose('remysmoke.templates.form')
