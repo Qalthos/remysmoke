@@ -72,11 +72,11 @@ class RootController(BaseController):
         users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
         final_data = {}
         for (user,) in users:
-            (user,) = DBSession.query(User.display_name).filter_by(user_name=user).one()
             data = DBSession.query(Cigarette).filter_by(user=user)\
                     .filter(Cigarette.date >= past).all()
-            freq_data = [{'x': mktime((past + timedelta(days=x))\
-                    .timetuple()), 'y': 0} for x in range(frequency)]
+            (user,) = DBSession.query(User.display_name).filter_by(user_name=user).one()
+            freq_data = [{'x': mktime((past + timedelta(days=x+1))\
+                    .timetuple())*1000, 'y': 0} for x in range(frequency)]
 
             for datum in data:
                 delta = (datum.date - past).days / period - 1
