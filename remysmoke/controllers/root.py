@@ -78,7 +78,7 @@ class RootController(BaseController):
                     .timetuple()), 'y': 0} for x in range(frequency)]
 
             for datum in data:
-                delta = period - (datum.date - past).days / period - 1
+                delta = (datum.date - past).days / period - 1
                 freq_data[delta]['y'] += 1
 
             final_data[str(user)] = freq_data
