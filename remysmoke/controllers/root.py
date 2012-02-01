@@ -67,7 +67,8 @@ class RootController(BaseController):
 
     def time_chart(self, weeks, frequency, period=1):
         """Get information from a specified interval."""
-        past = datetime.today() - timedelta(weeks=weeks)
+        now = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+        past = now - timedelta(weeks=weeks)
         users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
         final_data = {}
         for (user,) in users:
