@@ -4,7 +4,7 @@
 from datetime import datetime, timedelta
 from time import mktime
 
-from tg import expose, flash, require, url, request, redirect, validate
+from tg import expose, flash, require, url, lurl, request, redirect, validate
 from tg.i18n import ugettext as _, lazy_ugettext as l_
 from remysmoke import model
 from repoze.what import predicates
