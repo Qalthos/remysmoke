@@ -20,6 +20,21 @@ def bootstrap(command, conf, vars):
 
         model.DBSession.add(u)
 
+        g = model.Group()
+        g.group_name = u'managers'
+        g.display_name = u'Managers Group'
+
+        g.users.append(u)
+
+        model.DBSession.add(g)
+
+        p = model.Permission()
+        p.permission_name = u'manage'
+        p.description = u'This permission give an administrative right to the bearer'
+        p.groups.append(g)
+
+        model.DBSession.add(p)
+
         u1 = model.User()
         u1.user_name = u'editor'
         u1.display_name = u'Example editor'
