@@ -87,7 +87,7 @@ class RootController(BaseController):
         chart = LineChart(p_data = final_data.values(),
                 p_labels = final_data.keys(),
                 p_time_series = True,
-                p_time_series_format = '%m/%d %I:%M',
+                p_time_series_format = '%m/%d',
                 p_width = 900
             )
         return chart
