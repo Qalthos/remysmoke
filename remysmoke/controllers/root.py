@@ -136,7 +136,7 @@ class RootController(BaseController):
     def register_smoke(self, **kw):
         """Try to add the smoking data."""
         smoke_data = Cigarette()
-        smoke_data.date = datetime.strptime(kw['date'], "%Y/%m/%d %H:%M")
+        smoke_data.date = kw['date']
         smoke_data.user = request.identity['repoze.who.userid']
         smoke_data.justification = kw['justification']
         DBSession.add(smoke_data)
