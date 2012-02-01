@@ -15,16 +15,24 @@ class ErrorController(object):
 
     This behaviour can be altered by changing the parameters to the
     ErrorDocuments middleware in your config/middleware.py file.
-    
+
     """
 
     @expose('remysmoke.templates.error')
     def document(self, *args, **kwargs):
         """Render the error document"""
         resp = request.environ.get('pylons.original_response')
-        default_message = ("<p>We're sorry but we weren't able to process "
-                           " this request.</p>")
-        values = dict(prefix=request.environ.get('SCRIPT_NAME', ''),
-                      code=request.params.get('code', resp.status_int),
-                      message=request.params.get('message', default_message))
+        (code,) = request.params.get('code', resp.status_int),
+        error_cats = {
+                403: {'img': 'http://farm8.staticflickr.com/7173/6508023617_f3ffc34e17_b.jpg',
+                      'a': 'http://www.flickr.com/photos/girliemac/6508023617/'},
+                404: {'img': 'http://farm8.staticflickr.com/7172/6508022985_b22200ced0_b.jpg',
+                      'a': 'http://www.flickr.com/photos/girliemac/6508022985/'},
+                500: {'img': 'http://farm8.staticflickr.com/7001/6509400855_f36a7fea54_o.jpg',
+                      'a': 'http://www.flickr.com/photos/girliemac/6509400855/'},
+            }
+        message = ('HTTP Status Cats created and compiled by <a ' +
+                'href="http://www.flickr.com/photos/girliemac/">GirlieMac</a>')
+        values = dict(img=error_cats[code]['img'], link=error_cats[code]['a'],
+                      code=code, message=message)
         return values
