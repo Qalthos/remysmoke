@@ -4,7 +4,7 @@
 from datetime import datetime, timedelta
 from time import mktime
 
-from tg import expose, flash, require, url, lurl, request, redirect
+from tg import expose, flash, require, url, request, redirect, validate
 from tg.i18n import ugettext as _, lazy_ugettext as l_
 from remysmoke import model
 from repoze.what import predicates
@@ -129,6 +129,7 @@ class RootController(BaseController):
         """Register a new smoke."""
         return dict(form=register_smoke_form())
 
+    @validate(register_smoke_form, error_handler=smoke)
     @expose()
     @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
     def register_smoke(self, **kw):

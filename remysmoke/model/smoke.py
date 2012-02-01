@@ -17,7 +17,7 @@ class Cigarette(DeclarativeBase):
 
     id = Column(Integer, primary_key=True)
     date = Column(DateTime, nullable=False)
-    user = Column(Unicode(255), nullable=True)
-    justification = Column(Unicode(255))
+    user = Column(Unicode(255), nullable=False)
+    justification = Column(Unicode(255), nullable=False)
 
     #}
