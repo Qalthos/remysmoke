@@ -7,19 +7,41 @@ This file complements development/deployment.ini.
 Please note that **all the argument values are strings**. If you want to
 convert them into boolean, for example, you should use the
 :func:`paste.deploy.converters.asbool` function, as in::
-    
+
     from paste.deploy.converters import asbool
     setting = asbool(global_conf.get('the_setting'))
- 
+
 """
 
+import os
+
 from tg.configuration import AppConfig
+from pylons import config
 
 import remysmoke
 from remysmoke import model
-from remysmoke.lib import app_globals, helpers 
+from remysmoke.lib import app_globals, helpers
 
-base_config = AppConfig()
+class OpenShiftConfig(AppConfig):
+
+    def after_init_config(self):
+        if os.environ.get('OPENSHIFT_APP_NAME'):
+            self.sa_auth.cookie_secret = os.environ['OPENSHIFT_APP_UUID']
+            config['cookie_secret'] = os.environ['OPENSHIFT_APP_UUID']
+            config['beaker.session.secret'] = os.environ['OPENSHIFT_APP_UUID']
+            config['cache_dir'] = os.environ['OPENSHIFT_DATA_DIR']
+            config['beaker.session.key'] = os.environ['OPENSHIFT_APP_NAME']
+            config['beaker.cache.data_dir'] = \
+                    os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'cache')
+            config['beaker.session.data_dir'] = \
+                    os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'sessions')
+            config['templating.mako.compiled_templates_dir'] = \
+                    os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'templates')
+            if os.environ.get('OPENSHIFT_DB_URL'):
+                config['sqlalchemy.url'] = \
+                    '%(OPENSHIFT_DB_URL)s%(OPENSHIFT_APP_NAME)s' % os.environ
+
+base_config = OpenShiftConfig()
 base_config.renderers = []
 
 base_config.package = remysmoke
@@ -37,8 +59,8 @@ base_config.DBSession = remysmoke.model.DBSession
 
 base_config.use_toscawidgets2 = True
 
-# YOU MUST CHANGE THIS VALUE IN PRODUCTION TO SECURE YOUR APP 
-base_config.sa_auth.cookie_secret = "ChangeME" 
+# YOU MUST CHANGE THIS VALUE IN PRODUCTION TO SECURE YOUR APP
+base_config.sa_auth.cookie_secret = "ChangeME"
 
 base_config.auth_backend = 'sqlalchemy'
 base_config.sa_auth.dbsession = model.DBSession
