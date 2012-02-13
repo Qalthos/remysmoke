@@ -84,12 +84,15 @@ class RootController(BaseController):
 
             final_data[str(user)] = freq_data
 
-        chart = LineChart(p_data = final_data.values(),
-                p_labels = final_data.keys(),
-                p_time_series = True,
-                p_time_series_format = '%m/%d',
-                p_width = 900
-            )
+        if not final_data:
+            chart = 'No data to display.'
+        else:
+            chart = LineChart(p_data = final_data.values(),
+                    p_labels = final_data.keys(),
+                    p_time_series = True,
+                    p_time_series_format = '%m/%d',
+                    p_width = 900
+                ).display()
         return chart
 
     @expose('remysmoke.templates.stats')
