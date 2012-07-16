@@ -39,6 +39,8 @@ install_requires=[
     "tw.forms",
     "tw2.protovis.conventional",
     "mysql-python",
+    "Pylons==1.0",
+    "WebOb==1.0.8",
     ]
 
 if sys.version_info[:2] == (2,4):
