@@ -118,12 +118,23 @@ class RootController(BaseController):
                     streak = datum.date - last
                 last = datum.date
 
+            excuses = [smoke_point.justification for smoke_point in smoke_data]
+            latest_excuses = excuses[-5:]
+            import random, collections
+            random_excuses = random.sample(excuses[:-5], 5)
+            counts = collections.defaultdict(int)
+            for excuse in excuses:
+                counts[excuse] += 1
+            top_excuses = sorted([(v, k) for k, v in counts.items()],
+                                 reverse=True)[:5]
+
             timespan = max((datetime.today() - oldest_data).days + 1, 1)
             spd = 1.0 * len(smoke_data) / timespan
             dpp = 1.0 * timespan * 20 / len(smoke_data)
             cpm = len(smoke_data) * 10.50 * 30 / (20 * timespan)
             data[user] = dict(smokes=spd, lifespan=dpp, cost=cpm,
-                    now=newest_data, best=streak)
+                              now=newest_data, best=streak, top=top_excuses,
+                              latest=latest_excuses, random=random_excuses)
 
         return dict(data=data)
 
