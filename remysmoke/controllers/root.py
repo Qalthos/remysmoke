@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """Main Controller"""
 
+import collections
 from datetime import datetime, timedelta
+import random
 from time import mktime
 
 from tg import expose, flash, require, url, lurl, request, redirect, validate
@@ -129,11 +131,10 @@ class RootController(BaseController):
 
             excuses = [smoke_point.justification for smoke_point in smoke_data]
             latest_excuses = excuses[-5:]
-            import random, collections
             random_excuses = random.sample(excuses[:-5], 5)
             counts = collections.defaultdict(int)
             for excuse in excuses:
-                counts[excuse] += 1
+                counts[excuse.lower()] += 1
             top_excuses = sorted([(v, k) for k, v in counts.items()],
                                  reverse=True)[:5]
 
