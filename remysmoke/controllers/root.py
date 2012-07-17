@@ -70,7 +70,10 @@ class RootController(BaseController):
 
         frequency = weeks * 7 / period
 
-        now = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+        # 'now' is technically tomorrow at 0:00, so that today's smokes have
+        # somewhere to go.
+        now = datetime.today().replace(hour=0, minute=0, second=0,
+                                       microsecond=0) + timedelta(days=1)
         past = now - timedelta(weeks=weeks)
         users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
         final_data = {}
@@ -78,11 +81,12 @@ class RootController(BaseController):
             data = DBSession.query(Cigarette).filter_by(user=user)\
                     .filter(Cigarette.date >= past).all()
             (user,) = DBSession.query(User.display_name).filter_by(user_name=user).one()
-            freq_data = [{'x': mktime((past + timedelta(days=x*period+1))\
-                    .timetuple())*1000, 'y': 0} for x in range(frequency)]
 
+            freq_data = [{'x': mktime((past + timedelta(days=x*period))
+                                      .timetuple()) * 1000, 'y': 0}
+                         for x in range(frequency)]
             for datum in data:
-                delta = (datum.date - past).days / period - 1
+                delta = (datum.date - past).days / period
                 freq_data[delta]['y'] += 1
 
             final_data[str(user)] = freq_data
