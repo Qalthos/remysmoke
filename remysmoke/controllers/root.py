@@ -76,11 +76,13 @@ class RootController(BaseController):
                                        microsecond=0) + timedelta(days=1)
         past = now - timedelta(weeks=weeks)
         users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
-        final_data = {}
+        user_data = {}
+
         for (user,) in users:
-            data = DBSession.query(Cigarette).filter_by(user=user)\
-                    .filter(Cigarette.date >= past).all()
-            (user,) = DBSession.query(User.display_name).filter_by(user_name=user).one()
+            data = DBSession.query(Cigarette).filter_by(user=user) \
+                            .filter(Cigarette.date >= past).all()
+            (user,) = DBSession.query(User.display_name) \
+                               .filter_by(user_name=user).one()
 
             freq_data = [{'x': mktime((past + timedelta(days=x*period))
                                       .timetuple()) * 1000, 'y': 0}
@@ -89,13 +91,13 @@ class RootController(BaseController):
                 delta = (datum.date - past).days / period
                 freq_data[delta]['y'] += 1
 
-            final_data[str(user)] = freq_data
+            user_data[str(user)] = freq_data
 
-        if not final_data:
+        if not user_data:
             chart = 'No data to display.'
         else:
-            chart = LineChart(p_data = final_data.values(),
-                    p_labels = final_data.keys(),
+            chart = LineChart(p_data = user_data.values(),
+                    p_labels = user_data.keys(),
                     p_time_series = True,
                     p_time_series_format = '%m/%d',
                     p_width = 900
