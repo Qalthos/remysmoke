@@ -31,8 +31,7 @@ class ErrorController(object):
                 500: {'img': 'http://farm8.staticflickr.com/7001/6509400855_f36a7fea54_o.jpg',
                       'a': 'http://www.flickr.com/photos/girliemac/6509400855/'},
             }
-        message = ('HTTP Status Cats created and compiled by <a ' +
-                'href="http://www.flickr.com/photos/girliemac/">GirlieMac</a>')
+        message = ('<a href="http://www.flickr.com/photos/girliemac/sets/72157628409467125/"HTTP Status Cats</a> created and compiled by <a href="http://www.flickr.com/photos/girliemac/">GirlieMac</a>')
         values = dict(img=error_cats[code]['img'], link=error_cats[code]['a'],
                       code=code, message=message)
         return values
