@@ -50,23 +50,26 @@ class RootController(BaseController):
     @expose('remysmoke.templates.chart')
     def week(self):
         """Show cigarettes smoked per week (daily)."""
-        chart = self.time_chart(1, 7)
+        chart = self.time_chart(1)
         return dict(chart=chart)
 
     @expose('remysmoke.templates.chart')
     def month(self):
         """Show cigarettes smoked per month (daily)."""
-        chart = self.time_chart(4, 28)
+        chart = self.time_chart(4)
         return dict(chart=chart)
 
     @expose('remysmoke.templates.chart')
     def year(self):
         """Show cigarettes smoked per year (weekly)."""
-        chart = self.time_chart(52, 52, 7)
+        chart = self.time_chart(52, 7)
         return dict(chart=chart)
 
-    def time_chart(self, weeks, frequency, period=1):
+    def time_chart(self, weeks, period=1):
         """Get information from a specified interval."""
+
+        frequency = weeks * 7 / period
+
         now = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
         past = now - timedelta(weeks=weeks)
         users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
