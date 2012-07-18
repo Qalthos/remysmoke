@@ -24,8 +24,8 @@
   </td>
   <td style='width: 30%'>
     <h2>Top 5 Excuses:</h2>
-    %for count, excuse in data[user]['top']:
-      ${excuse} (${count})<br/>
+    %for count, excuses in data[user]['top']:
+      ${', '.join(excuses)} (${count})<br/>
     %endfor
   </td>
   </tr></table>

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Main Controller"""
 
-import collections
 from datetime import datetime, timedelta
+import difflib
 import random
 from time import mktime
 
@@ -132,11 +132,20 @@ class RootController(BaseController):
             excuses = [smoke_point.justification for smoke_point in smoke_data]
             latest_excuses = excuses[-5:]
             random_excuses = random.sample(excuses[:-5], 5)
-            counts = collections.defaultdict(int)
+
+            counts = list()
             for excuse in excuses:
-                counts[excuse.lower()] += 1
-            top_excuses = sorted([(v, k) for k, v in counts.items()],
-                                 reverse=True)[:5]
+                excuse = excuse.lower().strip()
+                for merge_pair in counts:
+                    if difflib.get_close_matches(excuse, merge_pair[0], 1, .8):
+                        if excuse not in merge_pair[0]:
+                            merge_pair[0].append(excuse)
+                        merge_pair[1] += 1
+                        break
+                else:
+                    counts.append([[excuse], 1])
+            top_excuses = sorted([(count, similar) for similar, count
+                                  in counts], reverse=True)[:5]
 
             timespan = max((datetime.today() - oldest_data).days + 1, 1)
             spd = 1.0 * len(smoke_data) / timespan
