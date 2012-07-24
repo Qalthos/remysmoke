@@ -30,8 +30,8 @@
 <%def name="header()">
   <div id="header">
   	<h1>
-  		Welcome to TurboGears 2
-		<span class="subtitle">The Python web metaframework</span>
+  		Welcome to Remysmoke
+		<span class="subtitle">The web Python smoking tracker</span>
 	</h1>
   </div>
 </%def>
