@@ -106,27 +106,29 @@ class RootController(BaseController):
                 ).display()
         return chart
 
-    @expose('remysmoke.templates.chart')
+    @expose('remysmoke.templates.multichart')
     def punch(self):
-        (user,) = DBSession.query(Cigarette.user).group_by(Cigarette.user).one()
-        cigarettes = DBSession.query(Cigarette).filter_by(user=user).all()
-        (user,) = DBSession.query(User.display_name) \
-                           .filter_by(user_name=user).one()
+        users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
+        charts = dict()
+        for (user,) in users:
+            cigarettes = DBSession.query(Cigarette).filter_by(user=user).all()
+            (name,) = DBSession.query(User.display_name) \
+                               .filter_by(user_name=user).one()
 
-        chart_data = collections.defaultdict(lambda: [0]*24)
-        for cigarette in cigarettes:
-            dow = cigarette.date.strftime('%A')
-            hour = cigarette.date.hour
-            chart_data[dow][hour] += 1
+            chart_data = collections.defaultdict(lambda: [0]*24)
+            for cigarette in cigarettes:
+                dow = cigarette.date.strftime('%A')
+                hour = cigarette.date.hour
+                chart_data[dow][hour] += 1
 
-        real_data = []
-        for dow, day_data in chart_data.items():
-            for x, count in enumerate(day_data):
-                if count:
-                    real_data.append(dict(x=x, y=dow, z=count))
+            real_data = []
+            for dow, day_data in chart_data.items():
+                for x, count in enumerate(day_data):
+                    if count:
+                        real_data.append(dict(x=x, y=dow, z=count))
 
-        chart = Punchcard(p_data=real_data, p_width=900, p_left=65).display()
-        return dict(chart=chart)
+            charts[name] = Punchcard(p_data=real_data, p_width=900, p_left=65).display()
+        return dict(charts=charts)
 
     @expose('remysmoke.templates.stats')
     def stats(self):
