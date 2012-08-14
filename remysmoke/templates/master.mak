@@ -42,6 +42,7 @@
         <li><a href="${tg.url('/week')}" class="${('', 'active')}">Weekly Charts</a></li>
         <li><a href="${tg.url('/month')}" class="${('', 'active')}">Monthly Charts</a></li>
         <li><a href="${tg.url('/year')}" class="${('', 'active')}">Annual Charts</a></li>
+        <li><a href="${tg.url('/punch')}" class="${('', 'active')}">Smoking Punchcard</a></li>
         <li><a href="${tg.url('/stats')}" class="${('', 'active')}">Stats</a></li>
 
     % if tg.auth_stack_enabled:

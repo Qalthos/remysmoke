@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Main Controller"""
 
+import collections
 from datetime import datetime, timedelta
 import difflib
 import random
@@ -21,6 +22,7 @@ from remysmoke.controllers.error import ErrorController
 from remysmoke.model.smoke import Cigarette
 from remysmoke.model.auth import User
 from remysmoke.widgets.smoke import register_smoke_form
+from remysmoke.widgets.punch import Punchcard
 
 __all__ = ['RootController']
 
@@ -105,6 +107,28 @@ class RootController(BaseController):
                     p_width = 900
                 ).display()
         return chart
+
+    @expose('remysmoke.templates.chart')
+    def punch(self):
+        (user,) = DBSession.query(Cigarette.user).group_by(Cigarette.user).one()
+        cigarettes = DBSession.query(Cigarette).filter_by(user=user).all()
+        (user,) = DBSession.query(User.display_name) \
+                           .filter_by(user_name=user).one()
+
+        chart_data = collections.defaultdict(lambda: [0]*24)
+        for cigarette in cigarettes:
+            dow = cigarette.date.strftime('%A')
+            hour = cigarette.date.hour
+            chart_data[dow][hour] += 1
+
+        real_data = []
+        for dow, day_data in chart_data.items():
+            for x, count in enumerate(day_data):
+                if count:
+                    real_data.append(dict(x=x, y=dow, z=count))
+
+        chart = Punchcard(p_data=real_data, p_width=900, p_left=65).display()
+        return dict(chart=chart)
 
     @expose('remysmoke.templates.stats')
     def stats(self):
