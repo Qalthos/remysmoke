@@ -20,8 +20,8 @@ class Punchcard(twp.PVWidget):
         # Sizing and scales.
         self.init_js = js(
             """
-            var weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
-                            'Thursday', 'Friday', 'Saturday'];
+            var weekdays = ['Saturday', 'Friday', 'Thursday', 'Wednesday',
+                            'Tuesday', 'Monday', 'Sunday'];
             var data = %s,
                 w = %i,
                 h = %i,
