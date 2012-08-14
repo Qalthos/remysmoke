@@ -100,11 +100,9 @@ class RootController(BaseController):
         if not user_data:
             chart = 'No data to display.'
         else:
-            chart = LineChart(p_data = user_data.values(),
-                    p_labels = user_data.keys(),
-                    p_time_series = True,
-                    p_time_series_format = '%m/%d',
-                    p_width = 900
+            chart = LineChart(p_data=user_data.values(),
+                    p_labels=user_data.keys(), p_time_series=True,
+                    p_time_series_format='%m/%d', p_width=900
                 ).display()
         return chart
 
