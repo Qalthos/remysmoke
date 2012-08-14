@@ -7,6 +7,7 @@
 #
 #
 
+import os
 import sys
 
 try:
@@ -38,10 +39,11 @@ install_requires=[
     "repoze.what.plugins.sql>=1.0.1",
     "tw.forms",
     "tw2.protovis.conventional",
-    "mysql-python",
     "Pylons==1.0",
     "WebOb==1.0.8",
     ]
+if os.environ.get('OPENSHIFT_REPO_DIR'):
+    install_requires.append("mysql-python")
 
 if sys.version_info[:2] == (2,4):
     testpkgs.extend(['hashlib', 'pysqlite'])
