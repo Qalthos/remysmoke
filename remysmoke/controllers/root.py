@@ -194,6 +194,7 @@ class RootController(BaseController):
         """Try to add the smoking data."""
         smoke_data = Cigarette()
         smoke_data.date = kw['date']
+        smoke_data.submit_date = datetime.now()
         smoke_data.user = request.identity['repoze.who.userid']
         smoke_data.justification = kw['justification']
         DBSession.add(smoke_data)
