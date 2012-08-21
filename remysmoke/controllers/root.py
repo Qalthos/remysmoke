@@ -145,8 +145,10 @@ class RootController(BaseController):
 
             streak = timedelta()
             last = smoke_data[0].date
+            delta = timedelta()
 
             for datum in smoke_data:
+                delta += datum.date - datum.submit_date
                 if oldest_data > datum.date:
                     oldest_data = datum.date
                 if datum.date - last > streak:
@@ -174,10 +176,10 @@ class RootController(BaseController):
                                   in counts], reverse=True)[:5]
 
             timespan = max((datetime.today() - oldest_data).days + 1, 1)
-            spd = 1.0 * len(smoke_data) / timespan
+            score = (24.0 / len(smoke_data)) * timespan + delta.total_seconds()
             dpp = 1.0 * timespan * 20 / len(smoke_data)
             cpm = len(smoke_data) * 10.50 * 30 / (20 * timespan)
-            data[user] = dict(smokes=spd, lifespan=dpp, cost=cpm,
+            data[user] = dict(score=score, lifespan=dpp, cost=cpm,
                               now=newest_data, best=streak, top=top_excuses,
                               latest=latest_excuses, random=random_excuses)
 
