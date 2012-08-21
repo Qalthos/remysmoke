@@ -153,12 +153,14 @@ class RootController(BaseController):
                     streak = datum.date - last
                 last = datum.date
 
-            excuses = [smoke_point.justification for smoke_point in smoke_data]
-            latest_excuses = excuses[-5:]
+            excuses = [(smoke_point.justification,
+                        smoke_point.date.strftime('%d %b %Y %H:%M'))
+                       for smoke_point in smoke_data]
+            latest_excuses = reversed(excuses[-5:])
             random_excuses = random.sample(excuses[:-5], 5)
 
             counts = list()
-            for excuse in excuses:
+            for excuse, date in excuses:
                 excuse = excuse.lower().strip()
                 for merge_pair in counts:
                     if difflib.get_close_matches(excuse, merge_pair[0], 1, .8):
