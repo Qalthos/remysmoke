@@ -5,11 +5,11 @@
   <p>
     <div style='width:50%; display:inline-block'>
       Score:<br/>
-      <span style='font-size:20px'>${data[user]['score']}</span>
+      <span style='font-size:48px'>${'%.2f' % data[user]['score']}</span>
     </div>
     <div style='width:50%; float:right'>
-      Average lifespan of a pack: ${data[user]['lifespan']} days<br/>
-      Cost per month: $${data[user]['cost']}<br/>
+      Average lifespan of a pack: ${'%.2f' % data[user]['lifespan']} days<br/>
+      Cost per month: $${'%.2f' % data[user]['cost']}<br/>
       Time since last smoke: ${data[user]['now']}<br/>
       Longest time since between smokes: ${data[user]['best']}<br/>
     </div>
