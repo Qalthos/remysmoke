@@ -2,7 +2,7 @@
 
 %for user in data:
   ${user}'s data:
-  <p>
+  <div>
     <div style='width:50%; display:inline-block'>
       Score:<br/>
       <span style='font-size:48px'>${'%.2f' % data[user]['score']}</span>
@@ -13,7 +13,7 @@
       Time since last smoke: ${data[user]['now']}<br/>
       Longest time since between smokes: ${data[user]['best']}<br/>
     </div>
-  </p>
+  </div>
   <table style='width:100%'><tr>
   <td style='width:30%'>
     <h2>Recent 5 Excuses:</h2>
