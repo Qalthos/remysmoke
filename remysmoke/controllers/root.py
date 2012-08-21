@@ -148,7 +148,8 @@ class RootController(BaseController):
             delta = timedelta()
 
             for datum in smoke_data:
-                delta += datum.date - datum.submit_date
+                # Indulgences count as negative too
+                delta -= abs(datum.date - datum.submit_date)
                 if oldest_data > datum.date:
                     oldest_data = datum.date
                 if datum.date - last > streak:
