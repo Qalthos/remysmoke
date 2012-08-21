@@ -176,7 +176,8 @@ class RootController(BaseController):
                                   in counts], reverse=True)[:5]
 
             timespan = max((datetime.today() - oldest_data).days + 1, 1)
-            score = (24.0 / len(smoke_data)) * timespan + delta.total_seconds()
+            delta = delta.seconds + (delta.days * 24 * 3600)
+            score = (24.0 / len(smoke_data)) * timespan + delta
             dpp = 1.0 * timespan * 20 / len(smoke_data)
             cpm = len(smoke_data) * 10.50 * 30 / (20 * timespan)
             data[user] = dict(score=score, lifespan=dpp, cost=cpm,
