@@ -15,23 +15,30 @@
     </div>
   </div>
   <table style='width:100%'><tr>
-  <td style='width:30%'>
-    <h2>Recent 5 Excuses:</h2>
-    %for excuse in data[user]['latest']:
-      ${excuse[0]} (${excuse[1]})<br/>
-    %endfor
-  </td>
-  <td style='width:30%'>
-    <h2>Random 5 Excuses:</h2>
-    %for excuse in data[user]['random']:
-      ${excuse[0]} (${excuse[1]})<br/>
-    %endfor
-  </td>
-  <td style='width:30%'>
-    <h2>Top 5 Excuses:</h2>
-    %for count, excuses in data[user]['top']:
-      ${', '.join(excuses)} (${count})<br/>
-    %endfor
-  </td>
+    <th style='width:30%'>
+      Recent 5 Excuses:
+    </th>
+    <th style='width:30%'>
+      Random 5 Excuses:
+    </th>
+    <th style='width:30%'>
+      Top 5 Excuses:
+    </th>
+  </tr><tr>
+    <td>
+      %for excuse in data[user]['latest']:
+        ${excuse[0]} (${excuse[1]})<br/>
+      %endfor
+    </td>
+    <td>
+      %for excuse in data[user]['random']:
+        ${excuse[0]} (${excuse[1]})<br/>
+      %endfor
+    </td>
+    <td>
+      %for count, excuses in data[user]['top']:
+        ${', '.join(excuses)} (${count})<br/>
+      %endfor
+    </td>
   </tr></table>
 %endfor
