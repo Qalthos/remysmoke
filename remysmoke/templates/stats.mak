@@ -3,11 +3,11 @@
 %for user, udata in data.items():
   ${user}'s data':
   <div>
-    <div style='width:50%; display:inline-block'>
+    <div style='width:50%; float:left'>
       Score:<br/>
       <span style='font-size:48px'>${'%.2f' % udata['score']}</span>
     </div>
-    <div style='width:50%; float:right'>
+    <div style='width:50%; float:left'>
       Average lifespan of a pack: ${'%.2f' % udata['lifespan']} days<br/>
       Cost per month: $${'%.2f' % udata['cost']}<br/>
       Time since last smoke: ${udata['now']}<br/>
