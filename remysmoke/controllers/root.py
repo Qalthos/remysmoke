@@ -15,6 +15,7 @@ from remysmoke.controllers.secure import SecureController
 from remysmoke.model import DBSession, metadata
 from tgext.admin.tgadminconfig import TGAdminConfig
 from tgext.admin.controller import AdminController
+from tgext.mobilemiddleware import expose_mobile
 from tw2.protovis.conventional import LineChart
 
 from remysmoke.lib.base import BaseController
@@ -47,6 +48,7 @@ class RootController(BaseController):
     error = ErrorController()
 
     @expose('remysmoke.templates.index')
+    @expose_mobile('remysmoke.templates.mobile_index')
     def index(self):
         """Handle the front-page."""
         return dict()
@@ -188,6 +190,7 @@ class RootController(BaseController):
         return dict(data=data)
 
     @expose('remysmoke.templates.form')
+    @expose_mobile('remysmoke.templates.mobile_form')
     @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
     def smoke(self, **kw):
         """Register a new smoke."""
@@ -207,6 +210,7 @@ class RootController(BaseController):
         redirect('/')
 
     @expose('remysmoke.templates.login')
+    @expose_mobile('remysmoke.templates.mobile_login')
     def login(self, came_from=lurl('/')):
         """Start the user login."""
         login_counter = request.environ['repoze.who.logins']
