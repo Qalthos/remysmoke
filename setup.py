@@ -82,7 +82,8 @@ setup(
     main = pylons.util:PylonsInstaller
     """,
     dependency_links=[
-        "http://www.turbogears.org/2.1/downloads/current/"
+        "http://www.turbogears.org/2.1/downloads/current/",
+        "https://bitbucket.org/qalthos/tgext.mobilemiddleware/get/4cd273242d61.tar.gz#egg=tgext.mobilemiddleware",
         ],
     zip_safe=False
 )
