@@ -8,10 +8,10 @@
   <ul id="mainmenu">
     % if tg.auth_stack_enabled:
       % if not request.identity:
-        <li id="login"><a href="${tg.url('/m_login')}">Login</a></li>
+        <li id="login"><a href="${tg.url('/login')}">Login</a></li>
       % else:
         %if 'smoke' in request.identity['permissions']:
-          <li id="admin"><a href="${tg.url('/m_smoke')}">Add Smoke</a></li>
+          <li id="admin"><a href="${tg.url('/smoke')}">Add Smoke</a></li>
         %endif
         <li id="login"><a href="${tg.url('/logout_handler')}">Logout</a></li>
       % endif
