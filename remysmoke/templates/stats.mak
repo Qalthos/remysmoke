@@ -14,31 +14,24 @@
       Longest time since between smokes: ${udata['best']}<br/>
     </div>
   </div>
-  <table style='width:100%'><tr>
-    <th style='width:30%'>
-      Recent 5 Excuses:
-    </th>
-    <th style='width:30%'>
-      Random 5 Excuses:
-    </th>
-    <th style='width:30%'>
-      Top 5 Excuses:
-    </th>
-  </tr><tr>
-    <td>
-      %for excuse in data[user]['latest']:
-        ${excuse[0]} (${excuse[1]})<br/>
-      %endfor
-    </td>
-    <td>
-      %for excuse in data[user]['random']:
-        ${excuse[0]} (${excuse[1]})<br/>
-      %endfor
-    </td>
-    <td>
-      %for count, excuses in data[user]['top']:
-        ${', '.join(excuses)} (${count})<br/>
-      %endfor
-    </td>
-  </tr></table>
+  <table style='width:100%'>
+    <tr>
+      <th style='width:30%'>
+        Recent 5 Excuses:
+      </th>
+      <th style='width:30%'>
+        Random 5 Excuses:
+      </th>
+      <th style='width:30%'>
+        Top 5 Excuses:
+      </th>
+    </tr>
+    %for index, excuse in enumerate(udata['latest']):
+      <tr>
+        <td>${excuse[0]} (${excuse[1]})</td>
+        <td>${udata['random'][index][0]} (${udata['random'][index][1]})</td>
+        <td>${', '.join(udata['top'][index][1])} (${udata['top'][index][0]})</td>
+      </tr>
+    %endfor
+  </table>
 %endfor
