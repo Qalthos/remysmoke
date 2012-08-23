@@ -1,16 +1,12 @@
 html {
 	background: #555555 url('../images/pagebg.png') top left repeat-x;
-	text-align: center;
-	margin: 0;
-	padding: 0;
 }
 
 body {
-	text-align: left;
-	width: 240px;
+	width: 400px;
 	margin: 0 auto;
 	padding: 0;
-	font-size: 12px;
+	font-size: 24px;
 	font-family:"Lucida Grande","Lucida Sans Unicode",geneva,verdana,sans-serif;
 }
 
@@ -19,22 +15,23 @@ a {
 }
 
 #header {
-	margin: 10px 10px 0 10px;
-    height: 158px;
+    height: 132px;
+	margin: auto;
 	background: url('../images/header_mobile.png') top left no-repeat;
 }
 
 #header img {
-    margin: 4px 50px 0;
+    float: left;
+    margin: 4px;;
     width: 100px;
 }
 
 #header h1 {
-    height: 38px;
-    text-align: center;
+    padding: 35px 0 0 5px;
+    margin: 0;
 	color: #fff;
-	font-size: 24px;
-	background: url('../images/menu_mobile.png') top left no-repeat;
+    position: relative;
+	font-size: 36px;
 }
 
 ul#mainmenu {
@@ -47,7 +44,7 @@ ul#mainmenu li {
     text-align: center;
 	height: 38px;
     width: 170px;
-	margin: 2px 15px;
+	margin: 20px auto;
 	padding: 0;
 	position: relative;
 	background: url('../images/inputbg.png') left top no-repeat;
@@ -55,11 +52,11 @@ ul#mainmenu li {
 
 ul#mainmenu li a {
 	display: block;
-	line-height: 30px;
+	line-height: 28px;
 	vertical-align: middle;
 	padding: 0 10px;
-	font-size: 12px;
 	text-decoration: none;
+    color: #fff;
 }
 
 ul#mainmenu li.first a {
@@ -68,7 +65,7 @@ ul#mainmenu li.first a {
 
 #content {
 	background: #fff url('../images/content_mobile.png') left bottom no-repeat;
-	margin : 0 10px 10px 10px;
+	margin : 0;
 	padding: 0 10px;
 	overflow: hidden;
 }
@@ -82,38 +79,44 @@ ul#mainmenu li.first a {
 #loginform
 {
     text-align: center;
-    background: url('../images/loginbgi_mobile.png') top left repeat-y;
-    width: 210px;
-    margin: 0 -5px;
-}
-
-form.loginfields
-{
-    text-align: center;
-    width: 200px;
-    padding: 0;
-    margin: 0 auto;
-    border: 0;
+    background: url('../images/loginbg.png') top left repeat-y;
+    width: 270px;
+    margin: auto;
 }
 
 form.loginfields h2
 {
     font-size: 16px;
+    float: left;
     padding: 0;
-    margin: 0 0 4px;
-    background: url('../images/loginheader_mobile.png') top left no-repeat;
+    margin: 0 5px;
+    background: url('../images/loginheader-left.png') top left no-repeat;
 }
 
-form.loginfields span
+form.loginfields h2 span
 {
-    height: 20px;
-    text-align: center;
+    background: url('../images/loginheader-right.png') right top no-repeat;
+    height: 30px;
+    line-height: 30px;
+    display: block;
+    font-size: 100%;
+    font-weight: normal;
+    color: #fff;
+    padding: 0 10px;
+}
+
+form.loginfields label
+{
+    clear: left;
+    float: left;
+    margin: 5px 10px;
+    vertical-align: middle;
 }
 
 form.loginfields input.text
 {
-    margin-top: 5px 15px;
-    width: 160px;
+    float: left;
+    margin: 5px 25px;
     height: 21px;
     padding: 5px;
     border: 0;
@@ -123,19 +126,18 @@ form.loginfields input.text
 
 form.loginfields #loginremember
 {
-    float:right;
-    vertical-align: middle;
-    height: 26px;
+    float: left;
+    margin: 15px;
 }
 
 form.loginfields input#submit
 {
-    background: url('../images/loginbottom_mobile.png') bottom left no-repeat;
+    background: url('../images/loginbottombg.png') bottom left no-repeat;
+    width: 270px;
     height: 61px;
-    width: 210px;
     border: 0;
     margin: 10px -5px 0;
-    padding: 10px 80px 20px 10px;
+    padding: 10px 140px 20px 10px;
     color: #fff;
 }
 
