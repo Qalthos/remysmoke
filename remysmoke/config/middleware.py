@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """WSGI middleware initialization for the remysmoke application."""
 
+from tgext.mobilemiddleware import MobileMiddleware
+
 from remysmoke.config.app_cfg import base_config
 from remysmoke.config.environment import load_environment
 
@@ -35,5 +37,6 @@ def make_app(global_conf, full_stack=True, **app_conf):
     app = make_base_app(global_conf, full_stack=True, **app_conf)
     
     # Wrap your base TurboGears 2 application with custom middleware here
+    app = MobileMiddleware(app, app_conf)
     
     return app

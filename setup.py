@@ -41,6 +41,7 @@ install_requires=[
     "tw2.protovis.conventional",
     "Pylons==1.0",
     "WebOb==1.0.8",
+    "tgext.mobilemiddleware",
     ]
 if os.environ.get('OPENSHIFT_REPO_DIR'):
     install_requires.append("mysql-python")
