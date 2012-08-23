@@ -1,17 +1,17 @@
 <%inherit file="local:templates.master"/>
 
-%for user in data:
-  ${user}'s data:
+%for user, udata in data.items():
+  ${user}'s data':
   <div>
     <div style='width:50%; display:inline-block'>
       Score:<br/>
-      <span style='font-size:48px'>${'%.2f' % data[user]['score']}</span>
+      <span style='font-size:48px'>${'%.2f' % udata['score']}</span>
     </div>
     <div style='width:50%; float:right'>
-      Average lifespan of a pack: ${'%.2f' % data[user]['lifespan']} days<br/>
-      Cost per month: $${'%.2f' % data[user]['cost']}<br/>
-      Time since last smoke: ${data[user]['now']}<br/>
-      Longest time since between smokes: ${data[user]['best']}<br/>
+      Average lifespan of a pack: ${'%.2f' % udata['lifespan']} days<br/>
+      Cost per month: $${'%.2f' % udata['cost']}<br/>
+      Time since last smoke: ${udata['now']}<br/>
+      Longest time since between smokes: ${udata['best']}<br/>
     </div>
   </div>
   <table style='width:100%'><tr>
