@@ -3,6 +3,7 @@
 <html>
 <head>
     ${self.meta()}
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>${self.title()}</title>
     <link rel="stylesheet" type="text/css" media="screen" href="${tg.url('/css/mobile_style.css')}" />
     <link rel="stylesheet" type="text/css" media="screen" href="${tg.url('/css/admin.css')}" />
