@@ -3,7 +3,7 @@ html {
 }
 
 body {
-	width: 400px;
+	width: 300px;
 	margin: 0 auto;
 	padding: 0;
 	font-size: 24px;
@@ -21,17 +21,17 @@ a {
 }
 
 #header img {
-    float: left;
-    margin: 4px;;
+    margin: 4px 100px;
     width: 100px;
 }
 
 #header h1 {
-    padding: 35px 0 0 5px;
     margin: 0;
 	color: #fff;
     position: relative;
-	font-size: 36px;
+	font-size: 24px;
+    text-align: center;
+	background: url('../images/menu_mobile.png') top left no-repeat;
 }
 
 ul#mainmenu {
