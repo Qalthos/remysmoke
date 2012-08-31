@@ -40,7 +40,7 @@ install_requires=[
     "tw.forms",
     "tw2.protovis.conventional",
     "Pylons==1.0",
-    "WebOb==1.0.8",
+    "WebOb",
     "tgext.mobilemiddleware",
     "errorcats",
     ]

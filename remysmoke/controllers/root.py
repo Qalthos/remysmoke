@@ -9,17 +9,17 @@ from time import mktime
 
 from tg import expose, flash, require, url, lurl, request, redirect, validate
 from tg.i18n import ugettext as _, lazy_ugettext as l_
-from remysmoke import model
 from repoze.what import predicates
-from remysmoke.controllers.secure import SecureController
-from remysmoke.model import DBSession, metadata
 from tgext.admin.tgadminconfig import TGAdminConfig
 from tgext.admin.controller import AdminController
 from tgext.mobilemiddleware import expose_mobile
 from tw2.protovis.conventional import LineChart
 from errorcats.error import ErrorController
 
+from remysmoke.controllers.secure import SecureController
 from remysmoke.lib.base import BaseController
+from remysmoke import model
+from remysmoke.model import DBSession, metadata
 from remysmoke.model.smoke import Cigarette
 from remysmoke.model.auth import User
 from remysmoke.widgets.smoke import register_smoke_form
@@ -56,20 +56,17 @@ class RootController(BaseController):
     @expose('remysmoke.templates.chart')
     def week(self):
         """Show cigarettes smoked per week (daily)."""
-        chart = self.time_chart(1)
-        return dict(chart=chart)
+        return dict(chart=self.time_chart(1))
 
     @expose('remysmoke.templates.chart')
     def month(self):
         """Show cigarettes smoked per month (daily)."""
-        chart = self.time_chart(4)
-        return dict(chart=chart)
+        return dict(chart=self.time_chart(4))
 
     @expose('remysmoke.templates.chart')
     def year(self):
         """Show cigarettes smoked per year (weekly)."""
-        chart = self.time_chart(52, 7)
-        return dict(chart=chart)
+        return dict(chart=self.time_chart(52, 7))
 
     def time_chart(self, weeks, period=1):
         """Get information from a specified interval."""
