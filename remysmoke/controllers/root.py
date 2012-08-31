@@ -139,7 +139,12 @@ class RootController(BaseController):
         data = {}
         now = datetime.today()
         for (user,) in smoke_users:
-            smoke_data = DBSession.query(Cigarette).filter_by(user=user).order_by(Cigarette.date).all()
+            smoke_data = DBSession.query(Cigarette).filter_by(user=user) \
+                                  .order_by(Cigarette.date)
+            year = smoke_data.filter(Cigarette.date >= now - timedelta(days=365)).all()
+            month = smoke_data.filter(Cigarette.date >= now - timedelta(days=28)).all()
+            week = smoke_data.filter(Cigarette.date >= now - timedelta(days=7)).all()
+            smoke_data = smoke_data.all()
             (user,) = DBSession.query(User.display_name).filter_by(user_name=user).one()
 
             newest_data = now - smoke_data[-1].date
