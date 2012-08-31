@@ -42,6 +42,7 @@ install_requires=[
     "Pylons==1.0",
     "WebOb==1.0.8",
     "tgext.mobilemiddleware",
+    "errorcats",
     ]
 if os.environ.get('OPENSHIFT_REPO_DIR'):
     install_requires.append("mysql-python")

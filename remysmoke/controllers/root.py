@@ -17,9 +17,9 @@ from tgext.admin.tgadminconfig import TGAdminConfig
 from tgext.admin.controller import AdminController
 from tgext.mobilemiddleware import expose_mobile
 from tw2.protovis.conventional import LineChart
+from errorcats.error import ErrorController
 
 from remysmoke.lib.base import BaseController
-from remysmoke.controllers.error import ErrorController
 from remysmoke.model.smoke import Cigarette
 from remysmoke.model.auth import User
 from remysmoke.widgets.smoke import register_smoke_form
