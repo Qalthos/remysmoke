@@ -30,7 +30,9 @@
       <tr>
         <td>${excuse[0]} (${excuse[1]})</td>
         <td>${udata['random'][index][0]} (${udata['random'][index][1]})</td>
-        <td>${', '.join(udata['top'][index][1])} (${udata['top'][index][0]})</td>
+        %if len(udata['top']) > index:
+          <td>${', '.join(udata['top'][index][1])} (${udata['top'][index][0]})</td>
+        %endif
       </tr>
     %endfor
   </table>

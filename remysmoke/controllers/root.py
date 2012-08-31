@@ -167,7 +167,7 @@ class RootController(BaseController):
                         smoke_point.date.strftime('%d %b %Y %H:%M'))
                        for smoke_point in smoke_data]
             latest_excuses = reversed(excuses[-5:])
-            random_excuses = random.sample(excuses[:-5], 5)
+            random_excuses = random.sample(excuses, 5 if len(excuses) >= 5 else len(excuses))
 
             counts = list()
             for excuse, date in excuses:
