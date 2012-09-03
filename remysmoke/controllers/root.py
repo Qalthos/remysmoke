@@ -196,7 +196,7 @@ class RootController(BaseController):
     @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
     def smoke(self, **kw):
         """Register a new smoke."""
-        return dict(form=register_smoke_form())
+        return dict(form=register_smoke_form.display())
 
     @validate(register_smoke_form, error_handler=smoke)
     @expose()
