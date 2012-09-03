@@ -1,23 +1,23 @@
 html {
-	background: #555555 url('../images/pagebg.png') top left repeat-x;
+    background: #555555 url('../images/pagebg.png') top left repeat-x;
 }
 
 body {
-	width: 300px;
-	margin: 0 auto;
-	padding: 0;
-	font-size: 24px;
-	font-family:"Lucida Grande","Lucida Sans Unicode",geneva,verdana,sans-serif;
+    width: 300px;
+    margin: 0 auto;
+    padding: 0;
+    font-size: 24px;
+    font-family:"Lucida Grande","Lucida Sans Unicode",geneva,verdana,sans-serif;
 }
 
 a {
-	color: #286571;
+    color: #286571;
 }
 
 #header {
     height: 132px;
-	margin: auto;
-	background: url('../images/header_mobile.png') top left no-repeat;
+    margin: auto;
+    background: url('../images/header_mobile.png') top left no-repeat;
 }
 
 #header img {
@@ -27,51 +27,51 @@ a {
 
 #header h1 {
     margin: 0;
-	color: #fff;
+    color: #fff;
     position: relative;
-	font-size: 24px;
+    font-size: 24px;
     text-align: center;
-	background: url('../images/menu_mobile.png') top left no-repeat;
+    background: url('../images/menu_mobile.png') top left no-repeat;
 }
 
 ul#mainmenu {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 ul#mainmenu li {
-	list-style-type: none;
+    list-style-type: none;
     text-align: center;
-	height: 38px;
+    height: 38px;
     width: 170px;
-	margin: 20px auto;
-	padding: 0;
-	position: relative;
-	background: url('../images/inputbg.png') left top no-repeat;
+    margin: 20px auto;
+    padding: 0;
+    position: relative;
+    background: url('../images/inputbg.png') left top no-repeat;
 }
 
 ul#mainmenu li a {
-	display: block;
-	line-height: 28px;
-	vertical-align: middle;
-	padding: 0 10px;
-	text-decoration: none;
+    display: block;
+    line-height: 28px;
+    vertical-align: middle;
+    padding: 0 10px;
+    text-decoration: none;
     color: #fff;
 }
 
 ul#mainmenu li.first a {
-	background: none;
+    background: none;
 }
 
 #content {
-	background: #fff url('../images/content_mobile.png') left bottom no-repeat;
-	margin : 0;
-	padding: 0 10px;
-	overflow: hidden;
+    background: #fff url('../images/content_mobile.png') left bottom no-repeat;
+    margin : 0;
+    padding: 0 10px;
+    overflow: hidden;
 }
 
 #content .currentpage {
-	margin-top: 0;
+    margin-top: 0;
 }
 
 /* Login form*/
@@ -143,20 +143,20 @@ form.loginfields input#submit
 
 /* Other and footer */
 #footer {
-	background: #fff;
-	padding: 10px;
-	color:#888888;
-	font-size:90%;
+    background: #fff;
+    padding: 10px;
+    color:#888888;
+    font-size:90%;
 }
 .flogo {
-	float:left;
-	margin-bottom:0px;
-	padding-left:20px;
-	padding-right:20px;
-	padding-top:0px;
+    float:left;
+    margin-bottom:0px;
+    padding-left:20px;
+    padding-right:20px;
+    padding-top:0px;
 }
 .foottext p {
-	margin: 0; padding: 0;
+    margin: 0; padding: 0;
 }
 .code {
 font-family:monospace;
