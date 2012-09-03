@@ -198,3 +198,7 @@ font-weight:bold;
 div.clearingdiv {
 clear:both;
 }
+
+form li {
+  list-style: none;
+}
