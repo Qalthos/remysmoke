@@ -16,7 +16,6 @@ from tgext.mobilemiddleware import expose_mobile
 from tw2.protovis.conventional import LineChart
 from errorcats.error import ErrorController
 
-from remysmoke.controllers.secure import SecureController
 from remysmoke.lib.base import BaseController
 from remysmoke import model
 from remysmoke.model import DBSession, metadata
@@ -42,9 +41,7 @@ class RootController(BaseController):
     must be wrapped around with :class:`tg.controllers.WSGIAppController`.
 
     """
-    secc = SecureController()
     admin = AdminController(model, DBSession, config_type=TGAdminConfig)
-
     error = ErrorController()
 
     @expose('remysmoke.templates.index')
