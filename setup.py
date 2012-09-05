@@ -37,7 +37,7 @@ install_requires=[
     "tgext.admin >= 0.3.11",
     "repoze.what-quickstart",
     "repoze.what.plugins.sql>=1.0.1",
-    "tw.forms",
+    "tw2.forms",
     "tw2.protovis.conventional",
     "Pylons==1.0",
     "WebOb",

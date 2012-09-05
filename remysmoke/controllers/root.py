@@ -21,7 +21,7 @@ from remysmoke import model
 from remysmoke.model import DBSession, metadata
 from remysmoke.model.smoke import Cigarette
 from remysmoke.model.auth import User
-from remysmoke.widgets.smoke import register_smoke_form
+from remysmoke.widgets.smoke import SmokeForm
 from remysmoke.widgets.punch import Punchcard
 
 __all__ = ['RootController']
@@ -193,9 +193,9 @@ class RootController(BaseController):
     @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
     def smoke(self, **kw):
         """Register a new smoke."""
-        return dict(widget=register_smoke_form.display())
+        return dict(widget=SmokeForm.display())
 
-    @validate(register_smoke_form, error_handler=smoke)
+    @validate(SmokeForm, error_handler=smoke)
     @expose()
     @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
     def register_smoke(self, **kw):

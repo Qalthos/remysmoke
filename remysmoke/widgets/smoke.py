@@ -1,12 +1,14 @@
 """Smoke Form"""
 
-from tw2.forms import ListForm, CalendarDateTimePicker, TextArea
+from datetime import datetime
+
+from tw2.forms import FormPage, ListForm, CalendarDateTimePicker, TextArea
 from tw2.core import DateTimeValidator, Required
 
 
-class SmokeForm(ListForm):
-    date = CalendarDateTimePicker(validator=DateTimeValidator())
-    justification = TextArea(validator=Required)
-
-
-register_smoke_form = SmokeForm()
+class SmokeForm(FormPage):
+    title = ''
+    class child(ListForm):
+        action = '/register_smoke'
+        date = CalendarDateTimePicker(value=datetime.now())
+        justification = TextArea(validator=Required)
