@@ -50,20 +50,20 @@ class RootController(BaseController):
         """Handle the front-page."""
         return dict()
 
-    @expose('remysmoke.templates.chart')
+    @expose('remysmoke.templates.widget')
     def week(self):
         """Show cigarettes smoked per week (daily)."""
-        return dict(chart=self.time_chart(1))
+        return dict(widget=self.time_chart(1))
 
-    @expose('remysmoke.templates.chart')
+    @expose('remysmoke.templates.widget')
     def month(self):
         """Show cigarettes smoked per month (daily)."""
-        return dict(chart=self.time_chart(4))
+        return dict(widget=self.time_chart(4))
 
-    @expose('remysmoke.templates.chart')
+    @expose('remysmoke.templates.widget')
     def year(self):
         """Show cigarettes smoked per year (weekly)."""
-        return dict(chart=self.time_chart(52, 7))
+        return dict(widget=self.time_chart(52, 7))
 
     def time_chart(self, weeks, period=1):
         """Get information from a specified interval."""
@@ -188,12 +188,12 @@ class RootController(BaseController):
 
         return dict(data=data)
 
-    @expose('remysmoke.templates.form')
-    @expose_mobile('remysmoke.templates.mobile_form')
+    @expose('remysmoke.templates.widget')
+    @expose_mobile('remysmoke.templates.mobile_widget')
     @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
     def smoke(self, **kw):
         """Register a new smoke."""
-        return dict(form=register_smoke_form.display())
+        return dict(widget=register_smoke_form.display())
 
     @validate(register_smoke_form, error_handler=smoke)
     @expose()

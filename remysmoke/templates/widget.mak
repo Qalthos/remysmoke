@@ -1,4 +1,3 @@
 <%inherit file="local:templates.master"/>
 
-${form | n}
-
+${widget | n}
