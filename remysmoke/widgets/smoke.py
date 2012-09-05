@@ -10,5 +10,5 @@ class SmokeForm(FormPage):
     title = ''
     class child(ListForm):
         action = '/register_smoke'
-        date = CalendarDateTimePicker(value=datetime.now())
+        date = CalendarDateTimePicker(required=True)
         justification = TextArea(validator=Required)
