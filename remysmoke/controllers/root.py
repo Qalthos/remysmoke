@@ -150,7 +150,7 @@ class RootController(BaseController):
 
             for datum in smoke_data:
                 # Indulgences count as negative too
-                delta -= abs(datum.date - datum.submit_date)
+                delta += abs(datum.date - datum.submit_date)
                 if oldest_data > datum.date:
                     oldest_data = datum.date
                 if datum.date - last > streak:
@@ -179,7 +179,8 @@ class RootController(BaseController):
 
             timespan = max((datetime.today() - oldest_data).days + 1, 1)
             delta = (delta.seconds / 3600.) + (delta.days * 24)
-            score = (24.0 / len(smoke_data)) * timespan + delta
+            # Score is [days of history] / [# of smokes] - delta
+            score = 24.0 * timespan / len(smoke_data) - delta
             dpp = 1.0 * timespan * 20 / len(smoke_data)
             cpm = len(smoke_data) * 10.50 * 30 / (20 * timespan)
             data[user] = dict(score=score, lifespan=dpp, cost=cpm,
