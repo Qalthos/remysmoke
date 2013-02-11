@@ -24,7 +24,7 @@ testpkgs=['WebTest >= 1.2.3',
                'repoze.who-testutil >= 1.0.1',
                ]
 install_requires=[
-    "TurboGears2 >= 2.1.4",
+    "TurboGears2 >= 2.2",
     "Mako",
     "zope.sqlalchemy >= 0.4",
     "repoze.tm2 >= 1.0a5",
@@ -37,12 +37,14 @@ install_requires=[
     "tgext.admin >= 0.3.11",
     "repoze.what-quickstart",
     "repoze.what.plugins.sql>=1.0.1",
+    "tw2.core>=2.1.1",
     "tw2.forms",
     "tw2.protovis.conventional",
+    "twilio",
     "Pylons==1.0",
-    "WebOb",
+    "WebOb==1.1.1",
     "tgext.mobilemiddleware",
-    "errorcats",
+    "errorcats>=1.0.2",
     ]
 if os.environ.get('OPENSHIFT_REPO_DIR'):
     install_requires.append("mysql-python")
