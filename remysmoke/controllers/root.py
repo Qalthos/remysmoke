@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 """Main Controller"""
 
-import collections
-from datetime import datetime, timedelta
-import difflib
-import random
-from time import mktime
+from datetime import datetime
 
 from tg import expose, flash, require, url, lurl, request, redirect, validate
 from tg.i18n import ugettext as _, lazy_ugettext as l_
@@ -13,16 +9,14 @@ from repoze.what import predicates
 from tgext.admin.tgadminconfig import TGAdminConfig
 from tgext.admin.controller import AdminController
 from tgext.mobilemiddleware import expose_mobile
-from tw2.protovis.conventional import LineChart
 from errorcats.error import ErrorController
 
 from remysmoke.lib.base import BaseController
 from remysmoke import model
-from remysmoke.model import DBSession, metadata
+from remysmoke.model import DBSession
 from remysmoke.model.smoke import Cigarette
-from remysmoke.model.auth import User
+from remysmoke.widgets import punch_chart, smoke_stats, time_chart
 from remysmoke.widgets.smoke import SmokeForm
-from remysmoke.widgets.punch import Punchcard
 
 __all__ = ['RootController']
 
@@ -53,141 +47,26 @@ class RootController(BaseController):
     @expose('remysmoke.templates.widget')
     def week(self):
         """Show cigarettes smoked per week (daily)."""
-        return dict(widget=self.time_chart(1))
+        return dict(widget=time_chart(1))
 
     @expose('remysmoke.templates.widget')
     def month(self):
         """Show cigarettes smoked per month (daily)."""
-        return dict(widget=self.time_chart(4))
+        return dict(widget=time_chart(4))
 
     @expose('remysmoke.templates.widget')
     def year(self):
         """Show cigarettes smoked per year (weekly)."""
-        return dict(widget=self.time_chart(52, 7))
-
-    def time_chart(self, weeks, period=1):
-        """Get information from a specified interval."""
-
-        frequency = weeks * 7 / period
-
-        # 'now' is technically tomorrow at 0:00, so that today's smokes have
-        # somewhere to go.
-        now = datetime.today().replace(hour=0, minute=0, second=0,
-                                       microsecond=0) + timedelta(days=1)
-        past = now - timedelta(weeks=weeks)
-        users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
-        user_data = {}
-
-        for (user,) in users:
-            data = DBSession.query(Cigarette).filter_by(user=user) \
-                            .filter(Cigarette.date >= past).all()
-            (user,) = DBSession.query(User.display_name) \
-                               .filter_by(user_name=user).one()
-
-            freq_data = [{'x': mktime((past + timedelta(days=x*period))
-                                      .timetuple()) * 1000, 'y': 0}
-                         for x in range(frequency)]
-            for datum in data:
-                delta = (datum.date - past).days / period
-                freq_data[delta]['y'] += 1
-
-            user_data[str(user)] = freq_data
-
-        if not user_data:
-            chart = 'No data to display.'
-        else:
-            chart = LineChart(p_data=user_data.values(),
-                    p_labels=user_data.keys(), p_time_series=True,
-                    p_time_series_format='%m/%d', p_width=900
-                ).display()
-        return chart
+        return dict(widget=time_chart(52, 7))
 
     @expose('remysmoke.templates.multichart')
     def punch(self):
-        users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
-        charts = dict()
-        for (user,) in users:
-            cigarettes = DBSession.query(Cigarette).filter_by(user=user).all()
-            (name,) = DBSession.query(User.display_name) \
-                               .filter_by(user_name=user).one()
-
-            chart_data = collections.defaultdict(lambda: [0]*24)
-            for cigarette in cigarettes:
-                dow = cigarette.date.strftime('%A')
-                hour = cigarette.date.hour
-                chart_data[dow][hour] += 1
-
-            real_data = []
-            for dow, day_data in chart_data.items():
-                for x, count in enumerate(day_data):
-                    if count:
-                        real_data.append(dict(x=x, y=dow, z=count))
-
-            charts[name] = Punchcard(p_data=real_data, p_width=900, p_left=65).display()
-        return dict(charts=charts)
+        return dict(charts=punch_chart())
 
     @expose('remysmoke.templates.stats')
     def stats(self):
         """Show some stats about cigarette consumption."""
-        smoke_users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
-        data = {}
-        now = datetime.today()
-        for (user,) in smoke_users:
-            smoke_data = DBSession.query(Cigarette).filter_by(user=user) \
-                                  .order_by(Cigarette.date)
-            year = smoke_data.filter(Cigarette.date >= now - timedelta(days=365)).all()
-            month = smoke_data.filter(Cigarette.date >= now - timedelta(days=28)).all()
-            week = smoke_data.filter(Cigarette.date >= now - timedelta(days=7)).all()
-            smoke_data = smoke_data.all()
-            (user,) = DBSession.query(User.display_name).filter_by(user_name=user).one()
-
-            newest_data = now - smoke_data[-1].date
-            oldest_data = now
-
-            streak = timedelta()
-            last = smoke_data[0].date
-            delta = timedelta()
-
-            for datum in smoke_data:
-                # Indulgences count as negative too
-                delta += abs(datum.date - datum.submit_date)
-                if oldest_data > datum.date:
-                    oldest_data = datum.date
-                if datum.date - last > streak:
-                    streak = datum.date - last
-                last = datum.date
-
-            excuses = [(smoke_point.justification,
-                        smoke_point.date.strftime('%d %b %Y %H:%M'))
-                       for smoke_point in smoke_data]
-            latest_excuses = reversed(excuses[-5:])
-            random_excuses = random.sample(excuses, 5 if len(excuses) >= 5 else len(excuses))
-
-            counts = list()
-            for excuse, date in excuses:
-                excuse = excuse.lower().strip()
-                for merge_pair in counts:
-                    if difflib.get_close_matches(excuse, merge_pair[0], 1, .8):
-                        if excuse not in merge_pair[0]:
-                            merge_pair[0].append(excuse)
-                        merge_pair[1] += 1
-                        break
-                else:
-                    counts.append([[excuse], 1])
-            top_excuses = sorted([(count, similar) for similar, count
-                                  in counts], reverse=True)[:5]
-
-            timespan = max((datetime.today() - oldest_data).days + 1, 1)
-            delta = (delta.seconds / 3600.) + (delta.days * 24)
-            # Score is [days of history] / [# of smokes] - delta
-            score = 24.0 * timespan / len(smoke_data) - delta
-            dpp = 1.0 * timespan * 20 / len(smoke_data)
-            cpm = len(smoke_data) * 10.50 * 30 / (20 * timespan)
-            data[user] = dict(score=score, lifespan=dpp, cost=cpm,
-                              now=newest_data, best=streak, top=top_excuses,
-                              latest=latest_excuses, random=random_excuses)
-
-        return dict(data=data)
+        return dict(data=smoke_stats())
 
     @expose('remysmoke.templates.widget')
     @expose_mobile('remysmoke.templates.mobile_widget')
