@@ -195,6 +195,14 @@ form.loginfields #labelremember
     vertical-align: middle;
 }
 
+#submit
+{
+    background: url('../images/inputbg.png') bottom left no-repeat;
+    color: #fff;
+    width: 170px;
+    height: 31px;
+}
+
 form.loginfields input#submit
 {
     background: url('../images/loginbottombg.png') bottom left no-repeat;
@@ -202,7 +210,6 @@ form.loginfields input#submit
     height: 61px;
     border: 0;
     margin-top: 10px;
-    color: #fff;
     padding: 10px 140px 20px 10px;
 }
 

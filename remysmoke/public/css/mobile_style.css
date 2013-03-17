@@ -130,6 +130,14 @@ form.loginfields #loginremember
     margin: 15px;
 }
 
+#submit
+{
+    background: url('../images/inputbg.png') bottom left no-repeat;
+    color: #fff;
+    width: 170px;
+    height: 31px;
+}
+
 form.loginfields input#submit
 {
     background: url('../images/loginbottombg.png') bottom left no-repeat;
@@ -138,7 +146,6 @@ form.loginfields input#submit
     border: 0;
     margin: 10px -5px 0;
     padding: 10px 140px 20px 10px;
-    color: #fff;
 }
 
 /* Other and footer */
