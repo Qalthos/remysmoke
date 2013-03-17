@@ -54,11 +54,8 @@ def smoke_stats():
 
         streak = timedelta()
         last = smoke_data[0].date
-        delta = timedelta()
 
         for datum in smoke_data:
-            # Indulgences count as negative too
-            delta += abs(datum.date - datum.submit_date)
             if oldest_data > datum.date:
                 oldest_data = datum.date
             if datum.date - last > streak:
@@ -86,9 +83,7 @@ def smoke_stats():
                               in counts], reverse=True)[:5]
 
         timespan = max((datetime.today() - oldest_data).days + 1, 1)
-        delta = (delta.seconds / 3600.) + (delta.days * 24)
-        # Score is [days of history] / [# of smokes] - delta
-        score = 24.0 * timespan / len(smoke_data) - delta
+        score = smoke_score(smoke_data, timespan)
         dpp = 1.0 * timespan * 20 / len(smoke_data)
         cpm = len(smoke_data) * 10.50 * 30 / (20 * timespan)
         data[user] = dict(score=score, lifespan=dpp, cost=cpm,
@@ -96,6 +91,17 @@ def smoke_stats():
                           latest=latest_excuses, random=random_excuses)
 
     return data
+
+def smoke_score(smoke_data, timespan):
+    """Takes smoking stats and reduces those stats to a number."""
+    delta = 0
+    for datum in smoke_data:
+        # Indulgences count as negative too
+        delta += abs(datum.date - datum.submit_date).seconds / 3600.
+
+    # Score is [days of history] / [# of smokes] - delta
+    score = 24.0 * timespan / len(smoke_data) - delta
+    return score
 
 def time_chart(weeks, period=1):
     """Get information from a specified interval."""
