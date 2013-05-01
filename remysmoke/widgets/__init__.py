@@ -1,16 +1,16 @@
-from datetime import datetime, timedelta
-from time import mktime
+from __future__ import print_function, unicode_literals
+
+from datetime import date, datetime, timedelta
 
 import collections
 import difflib
 import random
-
-from tw2.protovis.conventional import LineChart
+from pygal import DateY, Dot
+from pygal.style import LightStyle
 
 from remysmoke.model import DBSession
 from remysmoke.model.auth import User
 from remysmoke.model.smoke import Cigarette
-from remysmoke.widgets.punch import Punchcard
 
 def punch_chart():
     users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
@@ -26,13 +26,17 @@ def punch_chart():
             hour = cigarette.date.hour
             chart_data[dow][hour] += 1
 
-        real_data = []
-        for dow, day_data in chart_data.items():
-            for x, count in enumerate(day_data):
-                if count:
-                    real_data.append(dict(x=x, y=dow, z=count))
+        chart = Dot(width=900, height=225, show_dots=False, style=LightStyle,
+                    css=[
+                        'style.css',
+                        '.../wsgi/remysmoke/remysmoke/public/css/graph.css',
+                        ], js = [],
+                    x_label_rotation=20, include_x_axis=False)
+        days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        for dow in days:
+            chart.add(dow, chart_data[dow])
+        charts[name] = chart.render(is_unicode=True)
 
-        charts[name] = Punchcard(p_data=real_data, p_width=900, p_left=65).display()
 
     return charts
 
