@@ -45,6 +45,7 @@ install_requires=[
     "WebOb==1.1.1",
     "tgext.mobilemiddleware",
     "errorcats>=1.0.2",
+    "pygal",
     ]
 if os.environ.get('OPENSHIFT_REPO_DIR'):
     install_requires.append("mysql-python")
