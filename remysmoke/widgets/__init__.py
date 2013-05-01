@@ -110,15 +110,15 @@ def smoke_score(smoke_data, timespan):
 def time_chart(weeks, period=1):
     """Get information from a specified interval."""
 
-    frequency = weeks * 7 / period
+    date_range = weeks * 7 / period
+    period = timedelta(days=period)
 
     # 'now' is technically tomorrow at 0:00, so that today's smokes have
     # somewhere to go.
-    now = datetime.today().replace(hour=0, minute=0, second=0,
-                                   microsecond=0) + timedelta(days=1)
+    now = date.today() + timedelta(days=1)
     past = now - timedelta(weeks=weeks)
     users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
-    user_data = {}
+    users_data = {}
 
     for (user,) in users:
         data = DBSession.query(Cigarette).filter_by(user=user) \
@@ -126,20 +126,25 @@ def time_chart(weeks, period=1):
         (user,) = DBSession.query(User.display_name) \
                            .filter_by(user_name=user).one()
 
-        freq_data = [{'x': mktime((past + timedelta(days=x*period))
-                                  .timetuple()) * 1000, 'y': 0}
-                     for x in range(frequency)]
+        # pre-fill the dictionary with zeroes
+        freq_data = {(past + x*period): 0 for x in range(date_range)}
         for datum in data:
-            delta = (datum.date - past).days / period
-            freq_data[delta]['y'] += 1
+            distance = (datum.date.date() - past).total_seconds() // period.total_seconds()
+            freq_data[past + (int(distance) * period)] += 1
 
-        user_data[str(user)] = freq_data
+        users_data[user] = freq_data
 
-    if not user_data:
+    if not users_data:
         chart = 'No data to display.'
     else:
-        chart = LineChart(p_data=user_data.values(),
-                p_labels=user_data.keys(), p_time_series=True,
-                p_time_series_format='%m/%d', p_width=900
-            ).display()
+        chart = DateY(width=900, height=225, show_dots=False, style=LightStyle,
+                      css=[
+                          'style.css',
+                          '.../wsgi/remysmoke/remysmoke/public/css/graph.css',
+                          ], js = [],
+                      x_label_rotation=20, include_x_axis=True)
+        contents = users_data.items()
+        for (name, user_data) in contents:
+            chart.add(name, sorted(user_data.items()))
+            chart = chart.render(is_unicode=True)
     return chart
