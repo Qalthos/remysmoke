@@ -124,8 +124,11 @@ def smoke_score(smoke_data, timespan):
     """Takes smoking stats and reduces those stats to a number."""
     delta = 0
     for datum in smoke_data:
+        # Score is reduced by 1 for each hour difference
         # Indulgences count as negative too
-        delta += abs(datum.date - datum.submit_date).seconds / 3600.
+        #delta += abs(datum.date - datum.submit_date).total_seconds() / 3600.
+        this_delta = abs(datum.date - datum.submit_date)
+        delta += this_delta.seconds / 3600. + this_delta.days / 24.
 
     # Score is [days of history] / [# of smokes] - delta
     score = 24.0 * timespan / len(smoke_data) - delta
