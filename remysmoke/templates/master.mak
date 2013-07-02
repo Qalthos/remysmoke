@@ -24,7 +24,7 @@
   <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
 </%def>
 
-<%def name="title()"> </%def>
+<%def name="title()">Remysmoke: The Web-based Smoke Tracker</%def>
 
 <%def name="header()">
   <div id="header">
