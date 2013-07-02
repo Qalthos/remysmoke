@@ -23,19 +23,26 @@ LightStyle = Style(
             '#d0d293', '#9aacc3', '#bb77a4',
             '#77bbb5', '#777777')
 )
-class LineConfig(Config):
+class BaseConfig(Config):
+    def __init__(self, *a, **kw):
+        super(BaseConfig, self).__init__(*a, **kw)
+        self.width, self.height = (900, 225)
+        self.show_dots = False
+        self.print_values = False
+        self.style = LightStyle
+        self.no_prefix = True
+        self.disable_xml_declaration = True
+        self.include_x_axis = True
+        self.js = []
+
+
+class LineConfig(BaseConfig):
     def __init__(self, *a, **kw):
         super(LineConfig, self).__init__(*a, **kw)
-        self.width, self.height = (900, 225)
-        self.disable_xml_declaration = True
-
         self.x_label_rotation = 20
         self.order_min = 0
         self.fill = False
-        self.show_dots = False
-        self.include_x_axis = True
-        self.no_prefix = True
-        self.style = LightStyle
+
 
 def punch_chart():
     users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
@@ -51,9 +58,7 @@ def punch_chart():
             hour = cigarette.date.hour
             chart_data[dow][hour] += 1
 
-        chart = Dot(width=900, height=225, show_dots=False, style=LightStyle,
-                    css=['style.css', resource], js = [],
-                    x_label_rotation=20, include_x_axis=False)
+        chart = Dot(BaseConfig())
         days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         for dow in days:
             chart.add(dow, chart_data[dow])
