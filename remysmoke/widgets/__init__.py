@@ -14,7 +14,8 @@ from remysmoke.model.auth import User
 from remysmoke.model.smoke import Cigarette
 
 #~ resource = 'http://remysmoketest-qalthos.rcloud.com/css/graph.css'
-resource = '0.0.0.0:8080/css/graph.css'
+#~ resource = '0.0.0.0:8080/css/graph.css'
+resource = 'https://raw.github.com/Qalthos/remysmoke/feature/pygal/remysmoke/public/css/graph.css'
 
 LightStyle = Style(
     background='transparent',

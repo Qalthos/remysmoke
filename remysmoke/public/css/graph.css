@@ -1,3 +1,10 @@
-.nofill {
-  fill: none;
+{{ id }}.axis .major.guide.line {
+    stroke-dasharray: 0;
+    stroke: {{ style.foreground_dark }};
+}
+
+{{ id }}.axis g.guides text.major {
+    stroke-width: 0;
+    fill: inherit;
+    stroke: inherit;
 }
