@@ -17,12 +17,13 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
-testpkgs=['WebTest >= 1.2.3',
-               'nose',
-               'coverage',
-               'wsgiref',
-               'repoze.who-testutil >= 1.0.1',
-               ]
+testpkgs=[
+    'WebTest < 1.4', # Needed to keep WebOb below 1.2
+    'nose',
+    'coverage',
+    'wsgiref',
+    'repoze.who-testutil >= 1.0.1',
+]
 install_requires=[
     "TurboGears2 >= 2.2",
     "Mako",
@@ -39,14 +40,11 @@ install_requires=[
     "repoze.what.plugins.sql>=1.0.1",
     "tw2.core>=2.1.1",
     "tw2.forms",
-    "tw2.protovis.conventional",
-    "twilio",
-    "Pylons==1.0",
-    "WebOb==1.1.1",
-    "tgext.mobilemiddleware",
+    "WebOb",
+    "tgext.mobilemiddleware >= 0.4",
     "errorcats>=1.0.2",
     "pygal",
-    ]
+]
 if os.environ.get('OPENSHIFT_REPO_DIR'):
     install_requires.append("mysql-python")
 
@@ -84,8 +82,7 @@ setup(
     main = pylons.util:PylonsInstaller
     """,
     dependency_links=[
-        "http://www.turbogears.org/2.1/downloads/current/",
-        "https://bitbucket.org/qalthos/tgext.mobilemiddleware/get/4cd273242d61.tar.gz#egg=tgext.mobilemiddleware",
+        "http://tg.gy/current",
         ],
     zip_safe=False
 )
