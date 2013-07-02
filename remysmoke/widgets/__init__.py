@@ -54,10 +54,7 @@ def punch_chart():
             chart_data[dow][hour] += 1
 
         chart = Dot(width=900, height=225, show_dots=False, style=LightStyle,
-                    css=[
-                        'style.css',
-                        '.../wsgi/remysmoke/remysmoke/public/css/graph.css',
-                        ], js = [],
+                    css=['style.css', resource], js = [],
                     x_label_rotation=20, include_x_axis=False)
         days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         for dow in days:
