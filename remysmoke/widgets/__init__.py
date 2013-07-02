@@ -13,10 +13,6 @@ from remysmoke.model import DBSession
 from remysmoke.model.auth import User
 from remysmoke.model.smoke import Cigarette
 
-#~ resource = 'http://remysmoketest-qalthos.rcloud.com/css/graph.css'
-#~ resource = '0.0.0.0:8080/css/graph.css'
-resource = 'https://raw.github.com/Qalthos/remysmoke/feature/pygal/remysmoke/public/css/graph.css'
-
 LightStyle = Style(
     background='transparent',
     plot_background='transparent',
@@ -31,14 +27,15 @@ class LineConfig(Config):
     def __init__(self, *a, **kw):
         super(LineConfig, self).__init__(*a, **kw)
         self.width, self.height = (900, 225)
+        self.disable_xml_declaration = True
+
         self.x_label_rotation = 20
         self.order_min = 0
         self.fill = False
         self.show_dots = False
         self.include_x_axis = True
-        #self.no_prefix = True
+        self.no_prefix = True
         self.style = LightStyle
-        self.css.append(resource)
 
 def punch_chart():
     users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()

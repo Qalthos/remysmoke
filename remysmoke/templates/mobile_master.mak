@@ -2,11 +2,12 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
-    ${self.meta()}
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>${self.title()}</title>
     <link rel="stylesheet" type="text/css" media="screen" href="${tg.url('/css/mobile_style.css')}" />
     <link rel="stylesheet" type="text/css" media="screen" href="${tg.url('/css/admin.css')}" />
+    ${self.head()}
   </head>
   <body class="${self.body_class()}">
     ${self.header()}
@@ -19,11 +20,9 @@
     </div>
   </%def>
 
-  <%def name="body_class()"> </%def>
+  <%def name="body_class()"></%def>
 
-  <%def name="meta()">
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
-  </%def>
+  <%def name="head()"></%def>
 
   <%def name="title()"> </%def>
 
@@ -33,5 +32,4 @@
       <h1>Remysmoke</h1>
     </div>
   </%def>
-
 </html>
