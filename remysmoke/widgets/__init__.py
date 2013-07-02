@@ -5,12 +5,39 @@ from datetime import date, datetime, timedelta
 import collections
 import difflib
 import random
-from pygal import DateY, Dot
-from pygal.style import LightStyle
+
+from pygal import Config, Dot, DateY
+from pygal.style import Style
 
 from remysmoke.model import DBSession
 from remysmoke.model.auth import User
 from remysmoke.model.smoke import Cigarette
+
+#~ resource = 'http://remysmoketest-qalthos.rcloud.com/css/graph.css'
+resource = '0.0.0.0:8080/css/graph.css'
+
+LightStyle = Style(
+    background='transparent',
+    plot_background='transparent',
+    foreground='rgba(0, 0, 0, 0.7)',
+    foreground_light='rgb(0, 0, 0)',
+    foreground_dark='rgb(238,238,238)',
+    colors=('rgb(31, 119, 180)', '#9f6767', '#92ac68',
+            '#d0d293', '#9aacc3', '#bb77a4',
+            '#77bbb5', '#777777')
+)
+class LineConfig(Config):
+    def __init__(self, *a, **kw):
+        super(LineConfig, self).__init__(*a, **kw)
+        self.width, self.height = (900, 225)
+        self.x_label_rotation = 20
+        self.order_min = 0
+        self.fill = False
+        self.show_dots = False
+        self.include_x_axis = True
+        #self.no_prefix = True
+        self.style = LightStyle
+        self.css.append(resource)
 
 def punch_chart():
     users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
@@ -137,12 +164,7 @@ def time_chart(weeks, period=1):
     if not users_data:
         chart = 'No data to display.'
     else:
-        chart = DateY(width=900, height=225, show_dots=False, style=LightStyle,
-                      css=[
-                          'style.css',
-                          '.../wsgi/remysmoke/remysmoke/public/css/graph.css',
-                          ], js = [],
-                      x_label_rotation=20, include_x_axis=True)
+        chart = DateY(LineConfig())
         contents = users_data.items()
         for (name, user_data) in contents:
             chart.add(name, sorted(user_data.items()))
