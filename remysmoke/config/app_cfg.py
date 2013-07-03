@@ -39,7 +39,7 @@ class OpenShiftConfig(AppConfig):
                     os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'templates')
             if os.environ.get('OPENSHIFT_DB_URL'):
                 config['sqlalchemy.url'] = \
-                    '%(OPENSHIFT_DB_URL)s%(OPENSHIFT_APP_NAME)s' % os.environ
+                    '%(OPENSHIFT_MYSQL_DB_URL)s%(OPENSHIFT_APP_NAME)s' % os.environ
 
 base_config = OpenShiftConfig()
 base_config.renderers = []
