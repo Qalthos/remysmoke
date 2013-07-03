@@ -37,9 +37,9 @@ class OpenShiftConfig(AppConfig):
                     os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'sessions')
             config['templating.mako.compiled_templates_dir'] = \
                     os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'templates')
-            if os.environ.get('OPENSHIFT_DB_URL'):
+            if os.environ.get('OPENSHIFT_MYSQL_DB_URL'):
                 config['sqlalchemy.url'] = \
-                    '%(OPENSHIFT_DB_URL)s%(OPENSHIFT_APP_NAME)s' % os.environ
+                    '%(OPENSHIFT_MYSQL_DB_URL)s%(OPENSHIFT_APP_NAME)s' % os.environ
 
 base_config = OpenShiftConfig()
 base_config.renderers = []
@@ -57,6 +57,7 @@ base_config.model = remysmoke.model
 base_config.DBSession = remysmoke.model.DBSession
 # Configure the authentication backend
 
+base_config.use_toscawidgets = False
 base_config.use_toscawidgets2 = True
 
 # YOU MUST CHANGE THIS VALUE IN PRODUCTION TO SECURE YOUR APP

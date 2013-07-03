@@ -1,0 +1,14 @@
+/*
+ * Override obnoxious pygal styles
+ */
+g.graph .axis g.guides .guide.line {
+    opacity: 1;
+    stroke-dasharray: 0;
+    stroke: rgb(238,238,238);
+}
+
+g.graph .axis g.guides text.major {
+    stroke-width: 0;
+    fill: inherit;
+    stroke: inherit;
+}

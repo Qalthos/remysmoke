@@ -17,19 +17,22 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
-testpkgs=['WebTest >= 1.2.3',
-               'nose',
-               'coverage',
-               'wsgiref',
-               'repoze.who-testutil >= 1.0.1',
-               ]
+testpkgs=[
+    'WebTest < 1.4', # Needed to keep WebOb below 1.2
+    'nose',
+    'coverage',
+    'wsgiref',
+    'repoze.who-testutil >= 1.0.1',
+]
 install_requires=[
     "TurboGears2 >= 2.2",
+    "WebOb==1.1.1", # Can be removed with tg2.3
+    'WebTest < 1.4', # Needed to keep WebOb below 1.2
     "Mako",
     "zope.sqlalchemy >= 0.4",
     "repoze.tm2 >= 1.0a5",
-    "sqlalchemy",
-    "sqlalchemy-migrate",
+    "sqlalchemy < 0.7", # SQLAlchemy_migrate brokenness
+    'sqlalchemy-migrate',
     "repoze.what >= 1.0.8",
     "repoze.who-friendlyform >= 1.0.4",
     "repoze.what-pylons >= 1.0",
@@ -39,15 +42,14 @@ install_requires=[
     "repoze.what.plugins.sql>=1.0.1",
     "tw2.core>=2.1.1",
     "tw2.forms",
-    "tw2.protovis.conventional",
-    "twilio",
-    "Pylons==1.0",
-    "WebOb==1.1.1",
-    "tgext.mobilemiddleware",
+    "tgext.mobilemiddleware >= 0.4",
     "errorcats>=1.0.2",
-    ]
+    "pygal",
+]
 if os.environ.get('OPENSHIFT_REPO_DIR'):
-    install_requires.append("mysql-python")
+    install_requires.append("tg.devtools")
+    install_requires.append("gevent")
+    install_requires.append("mysql-python == 1.2.3") # setuptools 0.7
 
 if sys.version_info[:2] == (2,4):
     testpkgs.extend(['hashlib', 'pysqlite'])
@@ -81,10 +83,12 @@ setup(
 
     [paste.app_install]
     main = pylons.util:PylonsInstaller
+
+    [nose.plugins]
+    pylons = pylons.test:PylonsPlugin
     """,
     dependency_links=[
-        "http://www.turbogears.org/2.1/downloads/current/",
-        "https://bitbucket.org/qalthos/tgext.mobilemiddleware/get/4cd273242d61.tar.gz#egg=tgext.mobilemiddleware",
-        ],
+        "http://tg.gy/current",
+    ],
     zip_safe=False
 )
