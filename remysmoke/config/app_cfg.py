@@ -37,7 +37,7 @@ class OpenShiftConfig(AppConfig):
                     os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'sessions')
             config['templating.mako.compiled_templates_dir'] = \
                     os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'templates')
-            if os.environ.get('OPENSHIFT_DB_URL'):
+            if os.environ.get('OPENSHIFT_MYSQL_DB_URL'):
                 config['sqlalchemy.url'] = \
                     '%(OPENSHIFT_MYSQL_DB_URL)s%(OPENSHIFT_APP_NAME)s' % os.environ
 
