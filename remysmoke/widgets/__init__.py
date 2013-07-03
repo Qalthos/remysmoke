@@ -100,7 +100,7 @@ def smoke_stats():
         random_excuses = random.sample(excuses, 5 if len(excuses) >= 5 else len(excuses))
 
         counts = list()
-        for excuse, date in excuses:
+        for (excuse, _) in excuses:
             excuse = excuse.lower().strip()
             for merge_pair in counts:
                 if difflib.get_close_matches(excuse, merge_pair[0], 1, .8):
