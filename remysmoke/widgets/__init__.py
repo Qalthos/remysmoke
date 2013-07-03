@@ -1,4 +1,4 @@
-from __future__ import print_function, unicode_literals
+from __future__ import division, print_function, unicode_literals
 
 from datetime import date, datetime, timedelta
 
@@ -140,7 +140,7 @@ def smoke_score(smoke_data, timespan):
 def time_chart(weeks, period=1):
     """Get information from a specified interval."""
 
-    date_range = weeks * 7 / period
+    date_range = weeks * 7 // period
     period = timedelta(days=period)
 
     # 'now' is technically tomorrow at 0:00, so that today's smokes have
