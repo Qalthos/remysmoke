@@ -3,7 +3,7 @@
 
 from datetime import datetime
 
-from tg import expose, flash, require, url, lurl, request, redirect, validate
+from tg import expose, flash, require, lurl, request, redirect, validate
 from tg.i18n import ugettext as _, lazy_ugettext as l_
 from repoze.what import predicates
 from tgext.admin.tgadminconfig import TGAdminConfig
