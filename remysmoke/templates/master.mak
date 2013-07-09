@@ -2,9 +2,10 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-    ${self.meta()}
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
     <title>${self.title()}</title>
     <link rel="stylesheet" type="text/css" media="screen" href="${tg.url('/css/style.css')}" />
+    ${self.head()}
 </head>
 <body class="${self.body_class()}">
   ${self.header()}
@@ -18,13 +19,11 @@
     </div>
 </%def>
 
-<%def name="body_class()"> </%def>
+<%def name="body_class()"></%def>
 
-<%def name="meta()">
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
-</%def>
+<%def name="head()"></%def>
 
-<%def name="title()"> </%def>
+<%def name="title()">Remysmoke: The Web-based Smoke Tracker</%def>
 
 <%def name="header()">
   <div id="header">

@@ -17,19 +17,19 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
-testpkgs=['WebTest >= 1.2.3',
-               'nose',
-               'coverage',
-               'wsgiref',
-               'repoze.who-testutil >= 1.0.1',
-               ]
+testpkgs=[
+    'WebTest',
+    'nose',
+    'coverage',
+    'wsgiref',
+    'repoze.who-testutil >= 1.0.1',
+]
 install_requires=[
     "TurboGears2 >= 2.2",
     "Mako",
     "zope.sqlalchemy >= 0.4",
     "repoze.tm2 >= 1.0a5",
     "sqlalchemy",
-    "sqlalchemy-migrate",
     "repoze.what >= 1.0.8",
     "repoze.who-friendlyform >= 1.0.4",
     "repoze.what-pylons >= 1.0",
@@ -39,15 +39,14 @@ install_requires=[
     "repoze.what.plugins.sql>=1.0.1",
     "tw2.core>=2.1.1",
     "tw2.forms",
-    "tw2.protovis.conventional",
-    "twilio",
-    "Pylons==1.0",
-    "WebOb==1.1.1",
-    "tgext.mobilemiddleware",
+    "tgext.mobilemiddleware >= 0.4",
     "errorcats>=1.0.2",
-    ]
+    "pygal",
+]
 if os.environ.get('OPENSHIFT_REPO_DIR'):
-    install_requires.append("mysql-python")
+    install_requires.append("tg.devtools")
+    install_requires.append("gevent")
+    install_requires.append("mysql-python == 1.2.3") # setuptools 0.7
 
 if sys.version_info[:2] == (2,4):
     testpkgs.extend(['hashlib', 'pysqlite'])
@@ -55,13 +54,11 @@ if sys.version_info[:2] == (2,4):
 
 setup(
     name='remysmoke',
-    version='0.1',
+    version='1.1',
     description='',
     author='',
     author_email='',
     #url='',
-    setup_requires=["PasteScript >= 1.7"],
-    paster_plugins=['PasteScript', 'Pylons', 'TurboGears2', 'tg.devtools'],
     packages=find_packages(exclude=['ez_setup']),
     install_requires=install_requires,
     include_package_data=True,
@@ -75,16 +72,16 @@ setup(
             ('templates/**.mako', 'mako', None),
             ('public/**', 'ignore', None)]},
 
-    entry_points="""
-    [paste.app_factory]
-    main = remysmoke.config.middleware:make_app
-
-    [paste.app_install]
-    main = pylons.util:PylonsInstaller
-    """,
-    dependency_links=[
-        "http://www.turbogears.org/2.1/downloads/current/",
-        "https://bitbucket.org/qalthos/tgext.mobilemiddleware/get/4cd273242d61.tar.gz#egg=tgext.mobilemiddleware",
+    entry_points= {
+        'paste.app_factory': [
+            'main = remysmoke.config.middleware:make_app'
         ],
+        'gearbox.plugins': [
+            'turbogears-devtools = tg.devtools'
+        ],
+    },
+    dependency_links=[
+        "http://tg.gy/230",
+    ],
     zip_safe=False
 )
