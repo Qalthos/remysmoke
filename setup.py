@@ -54,7 +54,7 @@ if sys.version_info[:2] == (2,4):
 
 setup(
     name='remysmoke',
-    version='0.1',
+    version='1.1',
     description='',
     author='',
     author_email='',
