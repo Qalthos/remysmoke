@@ -18,7 +18,7 @@ except ImportError:
     from setuptools import setup, find_packages
 
 testpkgs=[
-    'WebTest < 1.4', # Needed to keep WebOb below 1.2
+    'WebTest',
     'nose',
     'coverage',
     'wsgiref',
@@ -26,13 +26,10 @@ testpkgs=[
 ]
 install_requires=[
     "TurboGears2 >= 2.2",
-    "WebOb==1.1.1", # Can be removed with tg2.3
-    'WebTest < 1.4', # Needed to keep WebOb below 1.2
     "Mako",
     "zope.sqlalchemy >= 0.4",
     "repoze.tm2 >= 1.0a5",
-    "sqlalchemy < 0.7", # SQLAlchemy_migrate brokenness
-    'sqlalchemy-migrate',
+    "sqlalchemy",
     "repoze.what >= 1.0.8",
     "repoze.who-friendlyform >= 1.0.4",
     "repoze.what-pylons >= 1.0",
@@ -62,8 +59,6 @@ setup(
     author='',
     author_email='',
     #url='',
-    setup_requires=["PasteScript >= 1.7"],
-    paster_plugins=['PasteScript', 'Pylons', 'TurboGears2', 'tg.devtools'],
     packages=find_packages(exclude=['ez_setup']),
     install_requires=install_requires,
     include_package_data=True,
@@ -77,18 +72,16 @@ setup(
             ('templates/**.mako', 'mako', None),
             ('public/**', 'ignore', None)]},
 
-    entry_points="""
-    [paste.app_factory]
-    main = remysmoke.config.middleware:make_app
-
-    [paste.app_install]
-    main = pylons.util:PylonsInstaller
-
-    [nose.plugins]
-    pylons = pylons.test:PylonsPlugin
-    """,
+    entry_points= {
+        'paste.app_factory': [
+            'main = remysmoke.config.middleware:make_app'
+        ],
+        'gearbox.plugins': [
+            'turbogears-devtools = tg.devtools'
+        ],
+    },
     dependency_links=[
-        "http://tg.gy/current",
+        "http://tg.gy/230",
     ],
     zip_safe=False
 )
