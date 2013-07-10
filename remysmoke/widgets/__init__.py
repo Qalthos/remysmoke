@@ -34,14 +34,23 @@ class BaseConfig(Config):
         self.disable_xml_declaration = True
         self.include_x_axis = True
         self.js = []
+        self.x_label_rotation = 20
 
 
 class LineConfig(BaseConfig):
     def __init__(self, *a, **kw):
         super(LineConfig, self).__init__(*a, **kw)
-        self.x_label_rotation = 20
         self.order_min = 0
         self.fill = False
+
+
+class DotConfig(BaseConfig):
+    def __init__(self, *a, **kw):
+        super(DotConfig, self).__init__(*a, **kw)
+        self.x_labels = ['{0:02d}:00'.format(hour) for hour in range(24)]
+        self.show_legend = False
+        self.show_x_guides = True
+        self.show_y_guides = True
 
 
 def punch_chart():
@@ -58,7 +67,7 @@ def punch_chart():
             hour = cigarette.date.hour
             chart_data[dow][hour] += 1
 
-        chart = Dot(BaseConfig())
+        chart = Dot(DotConfig())
         days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         for dow in days:
             chart.add(dow, chart_data[dow])
