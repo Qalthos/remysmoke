@@ -1,6 +1,6 @@
 from __future__ import division, print_function, unicode_literals
 
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
 import collections
 import difflib
@@ -154,7 +154,8 @@ def time_chart(weeks, period=1):
 
     # 'now' is technically tomorrow at 0:00, so that today's smokes have
     # somewhere to go.
-    now = date.today() + timedelta(days=1)
+    now = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0) \
+        + timedelta(days=1)
     past = now - timedelta(weeks=weeks)
     users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
     users_data = {}
@@ -168,7 +169,7 @@ def time_chart(weeks, period=1):
         # pre-fill the dictionary with zeroes
         freq_data = {(past + x*period): 0 for x in range(date_range)}
         for datum in data:
-            distance = (datum.date.date() - past).total_seconds() // period.total_seconds()
+            distance = (datum.date - past).total_seconds() // period.total_seconds()
             freq_data[past + (int(distance) * period)] += 1
 
         users_data[user] = freq_data

@@ -1,9 +1,5 @@
 <%inherit file="local:templates.master"/>
 
-<%def name="title()">
-  Welcome to TurboGears 2.1, standing on the shoulders of giants, since 2007
-</%def>
-
 <div id="getting_started">
   <p>
     I'm trying to get <a href='http://foss.rit.edu/blog/decause'>Remy Decausemaker</a>
