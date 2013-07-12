@@ -3,7 +3,7 @@
 
 from datetime import datetime
 
-from tg import expose, flash, require, lurl, request, redirect, validate
+from tg import expose, flash, require, lurl, request, redirect
 from tg.i18n import ugettext as _, lazy_ugettext as l_
 from repoze.what import predicates
 from tgext.admin.tgadminconfig import TGAdminConfig
@@ -16,7 +16,6 @@ from remysmoke import model
 from remysmoke.model import DBSession
 from remysmoke.model.smoke import Cigarette
 from remysmoke.widgets import punch_chart, smoke_stats, time_chart
-from remysmoke.widgets.smoke import SmokeForm
 
 __all__ = ['RootController']
 
