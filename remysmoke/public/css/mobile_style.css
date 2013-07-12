@@ -34,6 +34,10 @@ a {
     background: url('../images/menu_mobile.png') top left no-repeat;
 }
 
+#menudiv {
+    background: #fff;
+}
+
 ul#mainmenu {
     margin: 0;
     padding: 0;
@@ -44,8 +48,9 @@ ul#mainmenu li {
     text-align: center;
     height: 38px;
     width: 170px;
-    margin: 20px auto;
-    padding: 0;
+    top: 20px;
+    margin: 0px auto;
+    padding-bottom: 20px;
     position: relative;
     background: url('../images/inputbg.png') left top no-repeat;
 }
