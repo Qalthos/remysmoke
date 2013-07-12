@@ -37,8 +37,6 @@ install_requires=[
     "tgext.admin >= 0.3.11",
     "repoze.what-quickstart",
     "repoze.what.plugins.sql>=1.0.1",
-    "tw2.core>=2.1.1",
-    "tw2.forms",
     "tgext.mobilemiddleware >= 0.4",
     "errorcats>=1.0.2",
     "pygal",
