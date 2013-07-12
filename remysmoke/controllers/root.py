@@ -6,13 +6,10 @@ from datetime import datetime
 from tg import expose, flash, require, lurl, request, redirect
 from tg.i18n import ugettext as _, lazy_ugettext as l_
 from repoze.what import predicates
-from tgext.admin.tgadminconfig import TGAdminConfig
-from tgext.admin.controller import AdminController
 from tgext.mobilemiddleware import expose_mobile
 from errorcats.error import ErrorController
 
 from remysmoke.lib.base import BaseController
-from remysmoke import model
 from remysmoke.model import DBSession
 from remysmoke.model.smoke import Cigarette
 from remysmoke.widgets import punch_chart, smoke_stats, time_chart
@@ -34,7 +31,6 @@ class RootController(BaseController):
     must be wrapped around with :class:`tg.controllers.WSGIAppController`.
 
     """
-    admin = AdminController(model, DBSession, config_type=TGAdminConfig)
     error = ErrorController()
 
     @expose('remysmoke.templates.index')
