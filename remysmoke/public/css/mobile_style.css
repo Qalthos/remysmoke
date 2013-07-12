@@ -64,10 +64,6 @@ ul#mainmenu li a {
     color: #fff;
 }
 
-ul#mainmenu li.first a {
-    background: none;
-}
-
 #content {
     background: #fff url('../images/content_mobile.png') left bottom no-repeat;
     margin : 0;
