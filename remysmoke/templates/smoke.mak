@@ -5,7 +5,7 @@
     <ul id="smokeform">
       <li class="odd required">
         <label for="date">Date</label>
-        <input type='date' name='date' id='date' value="${context.get('date', '')}" required />
+        <input type='datetime' name='date' id='date' value="${context.get('date', '')}" required />
         <span class="error" id="error:date">
           ${context.get('error.date', '')}
         </span>
