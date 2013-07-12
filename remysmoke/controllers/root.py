@@ -68,14 +68,13 @@ class RootController(BaseController):
         """Show some stats about cigarette consumption."""
         return dict(data=smoke_stats())
 
-    @expose('remysmoke.templates.widget')
-    @expose_mobile('remysmoke.templates.mobile_widget')
+    @expose('remysmoke.templates.smoke')
+    @expose_mobile('remysmoke.templates.mobile_smoke')
     @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
     def smoke(self, **kw):
         """Register a new smoke."""
-        return dict(widget=SmokeForm.display())
+        return kw
 
-    @validate(SmokeForm, error_handler=smoke)
     @expose()
     @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
     def register_smoke(self, **kw):
