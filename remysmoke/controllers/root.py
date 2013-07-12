@@ -6,7 +6,6 @@ from datetime import datetime
 from tg import expose, flash, require, lurl, request, redirect
 from tg.i18n import ugettext as _, lazy_ugettext as l_
 from repoze.what import predicates
-from tgext.mobilemiddleware import expose_mobile
 from errorcats.error import ErrorController
 
 from remysmoke.lib.base import BaseController
@@ -34,7 +33,6 @@ class RootController(BaseController):
     error = ErrorController()
 
     @expose('remysmoke.templates.index')
-    @expose_mobile('remysmoke.templates.mobile_index')
     def index(self):
         """Handle the front-page."""
         return dict()
@@ -64,7 +62,6 @@ class RootController(BaseController):
         return dict(data=smoke_stats())
 
     @expose('remysmoke.templates.smoke')
-    @expose_mobile('remysmoke.templates.mobile_smoke')
     @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
     def smoke(self, **kw):
         """Register a new smoke."""
@@ -98,7 +95,6 @@ class RootController(BaseController):
             redirect('/smoke', params=kw)
 
     @expose('remysmoke.templates.login')
-    @expose_mobile('remysmoke.templates.mobile_login')
     def login(self, came_from=lurl('/')):
         """Start the user login."""
         login_counter = request.environ['repoze.who.logins']
