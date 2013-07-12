@@ -79,13 +79,26 @@ class RootController(BaseController):
     @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
     def register_smoke(self, **kw):
         """Try to add the smoking data."""
+        error = False
         smoke_data = Cigarette()
-        smoke_data.date = kw['date']
-        smoke_data.submit_date = datetime.now()
-        smoke_data.user = request.identity['repoze.who.userid']
-        smoke_data.justification = kw['justification']
-        DBSession.add(smoke_data)
-        redirect('/')
+        try:
+            smoke_data.date = datetime.strptime(kw['date'], '%Y-%m-%d %H:%M:%S')
+        except ValueError:
+            kw['error.date'] = 'Date must be in format YYYY-MM-DD HH:MM:SS'
+            error = True
+        if kw['justification']:
+            smoke_data.justification = kw['justification']
+        else:
+            kw['error.justification'] = 'justification is required'
+            error = True
+
+        if not error:
+            smoke_data.submit_date = datetime.now()
+            smoke_data.user = request.identity['repoze.who.userid']
+            DBSession.add(smoke_data)
+            redirect('/')
+        else:
+            redirect('/smoke', params=kw)
 
     @expose('remysmoke.templates.login')
     @expose_mobile('remysmoke.templates.mobile_login')
