@@ -72,6 +72,8 @@ class RootController(BaseController):
     @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
     def smoke(self, **kw):
         """Register a new smoke."""
+        if not kw.get('date'):
+            kw['date'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         return kw
 
     @expose()
