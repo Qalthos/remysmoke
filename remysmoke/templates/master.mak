@@ -14,7 +14,7 @@
     %endif
     ${self.head()}
   </head>
-  <body class="${self.body_class()}">
+  <body>
     ${self.header()}
     ${self.main_menu()}
     ${self.content_wrapper()}
@@ -25,8 +25,6 @@
       ${self.body()}
     </div>
 </%def>
-
-<%def name="body_class()"></%def>
 
 <%def name="head()"></%def>
 
