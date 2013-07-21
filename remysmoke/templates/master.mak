@@ -22,6 +22,10 @@
 
 <%def name="content_wrapper()">
     <div id="content">
+      <% flash=tg.flash_obj.render('flash', use_js=False) %>
+      % if flash:
+        ${flash | n}
+      % endif
       ${self.body()}
     </div>
 </%def>
