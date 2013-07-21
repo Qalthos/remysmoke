@@ -30,6 +30,7 @@ install_requires=[
     "zope.sqlalchemy >= 0.4",
     "repoze.tm2 >= 1.0a5",
     "sqlalchemy",
+    'alembic',
     "repoze.what >= 1.0.8",
     "repoze.who-friendlyform >= 1.0.4",
     "repoze.what-pylons >= 1.0",
