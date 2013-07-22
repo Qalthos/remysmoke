@@ -69,8 +69,7 @@ setup(
             ('**.py', 'python', None),
             ('templates/**.mako', 'mako', None),
             ('public/**', 'ignore', None)]},
-
-    entry_points= {
+    entry_points={
         'paste.app_factory': [
             'main = remysmoke.config.middleware:make_app'
         ],
