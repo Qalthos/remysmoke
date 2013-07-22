@@ -1,7 +1,7 @@
 <%inherit file="local:templates.master"/>
 
 <%def name='head()'>
-	<script src="/js/form_toggle.js" type="text/javasctipt" />
+	<script src="/js/form_toggle.js" type="text/javascript"></script>
 </%def>
 
 <div>
