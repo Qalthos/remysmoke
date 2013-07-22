@@ -163,6 +163,27 @@ form input.text {
     background: url('../images/inputbg.png') top left no-repeat;
 }
 
+form input.check {
+    opacity: 0;
+    margin-top: -40px;
+}
+
+form input.check + label {
+    display: block;
+    float: none;
+    width: 245px;
+    cursor: pointer;
+    background: url("../images/checkoff.png") top right no-repeat;
+}
+
+form input.check:checked + label {
+    background-image: url("../images/checkon.png");
+}
+
+form label:last-of-type {
+    padding-bottom: 10px;
+}
+
 form span.error {
     display: block;
     color: #f00;
