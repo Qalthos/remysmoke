@@ -1,5 +1,5 @@
-$(function() {
-    $('input#nosmoke').click(function() {
-        $('input#justification').prop('disabled', $(this).checked);
-    });
-});
+window.onload = function() {
+    document.getElementById('nosmoke').onclick = function() {
+        document.getElementById('justification').disabled = document.getElementById('nosmoke').checked;
+    };
+};
