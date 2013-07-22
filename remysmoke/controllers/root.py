@@ -95,10 +95,10 @@ class RootController(BaseController):
                 .filter_by(user=request.identity['repoze.who.userid']) \
                 .filter(Cigarette.date.between(today, tomorrow)).all()
             if smoke:
-                flash("You already registered a smoke for {}".format(today))
+                flash("You already registered a smoke for {}".format(today), 'error')
                 redirect('/smoke', params=kw)
             elif unsmoke:
-                flash("You already marked {} as a non-smoking day.".format(today))
+                flash("You already marked {} as a non-smoking day.".format(today), 'info')
                 redirect('/smoke', params=kw)
             else:
                 smoke_data = Unsmoke()
