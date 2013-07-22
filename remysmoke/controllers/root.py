@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Main Controller"""
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from tg import expose, flash, require, lurl, request, redirect
 from tg.i18n import ugettext as _, lazy_ugettext as l_
@@ -83,9 +83,37 @@ class RootController(BaseController):
 
         if kw.get('nosmoke'):
             # This is a nonsmoking event
-            smoke_data = Unsmoke()
-            smoke_data.date = parse_date.date()
+            # Sanity Check: unsmoke should not occurr on a day with a
+            # registered smoke, or on a day with and existing unsmoke.
+            today = parse_date.date()
+            tomorrow = today + timedelta(days=1)
+
+            unsmoke = DBSession.query(Unsmoke.date) \
+                .filter_by(user=request.identity['repoze.who.userid']) \
+                .filter_by(date=today).all()
+            smoke = DBSession.query(Cigarette.date) \
+                .filter_by(user=request.identity['repoze.who.userid']) \
+                .filter(Cigarette.date.between(today, tomorrow)).all()
+            if smoke:
+                flash("You already registered a smoke for {}".format(today))
+                redirect('/smoke', params=kw)
+            elif unsmoke:
+                flash("You already marked {} as a non-smoking day.".format(today))
+                redirect('/smoke', params=kw)
+            else:
+                smoke_data = Unsmoke()
+                smoke_data.date = parse_date.date()
         else:
+            # If there exists an unsmoke for today, probably best to delete it?
+            unsmoke = DBSession.query(Unsmoke) \
+                .filter_by(user=request.identity['repoze.who.userid']) \
+                .filter_by(date=parse_date.date()).all()
+            import q
+            for event in unsmoke:
+                q(event)
+                DBSession.delete(event)
+            DBSession.flush()
+
             smoke_data = Cigarette()
             smoke_data.date = parse_date
             smoke_data.submit_date = datetime.now()
