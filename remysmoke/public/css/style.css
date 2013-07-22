@@ -163,6 +163,10 @@ form input.text {
     background: url('../images/inputbg.png') top left no-repeat;
 }
 
+form input.text:disabled {
+    background-image: url('../images/inputdisable.png');
+}
+
 form input.check {
     opacity: 0;
     margin-top: -40px;
