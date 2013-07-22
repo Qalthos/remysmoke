@@ -11,6 +11,7 @@ from errorcats.error import ErrorController
 from remysmoke.lib.base import BaseController
 from remysmoke.model import DBSession
 from remysmoke.model.smoke import Cigarette
+from remysmoke.model.unsmoke import Unsmoke
 from remysmoke.widgets import punch_chart, smoke_stats, time_chart
 
 __all__ = ['RootController']
@@ -74,20 +75,27 @@ class RootController(BaseController):
     def register_smoke(self, **kw):
         """Try to add the smoking data."""
         error = False
-        smoke_data = Cigarette()
         try:
-            smoke_data.date = datetime.strptime(kw['date'], '%Y-%m-%d %H:%M:%S')
+            parse_date = datetime.strptime(kw['date'], '%Y-%m-%d %H:%M:%S')
         except ValueError:
             kw['error.date'] = 'Date must be in format YYYY-MM-DD HH:MM:SS'
             error = True
-        if kw['justification']:
-            smoke_data.justification = kw['justification']
+
+        if kw.get('nosmoke'):
+            # This is a nonsmoking event
+            smoke_data = Unsmoke()
+            smoke_data.date = parse_date.date()
         else:
-            kw['error.justification'] = 'justification is required'
-            error = True
+            smoke_data = Cigarette()
+            smoke_data.date = parse_date
+            smoke_data.submit_date = datetime.now()
+            if kw['justification']:
+                smoke_data.justification = kw['justification']
+            else:
+                kw['error.justification'] = 'justification is required'
+                error = True
 
         if not error:
-            smoke_data.submit_date = datetime.now()
             smoke_data.user = request.identity['repoze.who.userid']
             DBSession.add(smoke_data)
             redirect('/')
