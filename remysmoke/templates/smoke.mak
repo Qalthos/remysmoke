@@ -18,6 +18,9 @@
         </span>
       </li>
     </ul>
+	<input id='nosmoke' type="checkbox" name="nosmoke" class='check' />
+	<label for='nosmoke'>I did not smoke today</label>
+	<br />
 
     <input type="submit" id='submit' value="Save" />
   </form>
