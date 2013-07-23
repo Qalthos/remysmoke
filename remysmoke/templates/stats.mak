@@ -11,7 +11,7 @@
       Average lifespan of a pack: ${'%.2f' % udata['lifespan']} days<br/>
       Cost per month: $${'%.2f' % udata['cost']}<br/>
       Time since last smoke: ${udata['now']}<br/>
-      Longest time since between smokes: ${udata['best']}<br/>
+      Longest streak of not smoking: ${udata['best'].days} days<br/>
     </div>
   </div>
   <table style='width:100%'>

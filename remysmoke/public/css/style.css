@@ -140,10 +140,6 @@ form h2 span {
     padding: 0 20px;
 }
 
-form ul {
-    padding: 0;
-}
-
 form label {
     clear: left;
     float: left;
@@ -153,15 +149,43 @@ form label {
     vertical-align: middle;
 }
 
-form input.text {
+form input {
     float: left;
     margin: 5px 10px 5px 5px;
-    width: 165px;
     height: 21px;
     padding: 5px;
     border: 0;
-    background: url('../images/inputbg.png') top left no-repeat;
     color: #fff;
+}
+
+form input.text {
+    width: 165px;
+    background: url('../images/inputbg.png') top left no-repeat;
+}
+
+form input.text:disabled {
+    background-image: url('../images/inputdisable.png');
+}
+
+form input.check {
+    opacity: 0;
+    margin-top: -40px;
+}
+
+form input.check + label {
+    display: block;
+    float: none;
+    width: 245px;
+    cursor: pointer;
+    background: url("../images/checkoff.png") top right no-repeat;
+}
+
+form input.check:checked + label {
+    background-image: url("../images/checkon.png");
+}
+
+form label:last-of-type {
+    padding-bottom: 10px;
 }
 
 form span.error {
@@ -176,14 +200,6 @@ form #loginremember {
     height: 26px;
 }
 
-form #labelremember {
-    float: right;
-    width: auto;
-    margin:0;
-    margin-right: 15px;
-    vertical-align: middle;
-}
-
 #submit {
     background: url('../images/inputbg.png') bottom left no-repeat;
     color: #fff;
@@ -196,7 +212,7 @@ form input#submit {
     width: 270px;
     height: 61px;
     border: 0;
-    margin-top: 10px;
+    margin: -5px 0 0;
     padding: 10px 140px 20px 10px;
 }
 
