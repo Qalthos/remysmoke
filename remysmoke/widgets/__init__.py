@@ -12,6 +12,7 @@ from pygal.style import Style
 from remysmoke.model import DBSession
 from remysmoke.model.auth import User
 from remysmoke.model.smoke import Cigarette
+from remysmoke.model.unsmoke import Unsmoke
 
 LightStyle = Style(
     background='transparent',
@@ -83,6 +84,9 @@ def smoke_stats():
     for (user,) in smoke_users:
         smoke_data = DBSession.query(Cigarette).filter_by(user=user) \
                               .order_by(Cigarette.date)
+        unsmoke_data = DBSession.query(Unsmoke).filter_by(user=user) \
+                                .order_by(Unsmoke.date).all()
+
         year = smoke_data.filter(Cigarette.date >= now - timedelta(days=365)).all()
         month = smoke_data.filter(Cigarette.date >= now - timedelta(days=28)).all()
         week = smoke_data.filter(Cigarette.date >= now - timedelta(days=7)).all()
