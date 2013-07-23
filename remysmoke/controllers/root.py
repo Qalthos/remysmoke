@@ -12,7 +12,8 @@ from remysmoke.lib.base import BaseController
 from remysmoke.model import DBSession
 from remysmoke.model.smoke import Cigarette
 from remysmoke.model.unsmoke import Unsmoke
-from remysmoke.widgets import punch_chart, smoke_stats, time_chart
+from remysmoke.widgets import punch_chart, time_chart
+from remysmoke.widgets.stats import smoke_stats
 
 __all__ = ['RootController']
 
