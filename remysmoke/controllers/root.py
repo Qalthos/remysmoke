@@ -108,9 +108,7 @@ class RootController(BaseController):
             unsmoke = DBSession.query(Unsmoke) \
                 .filter_by(user=request.identity['repoze.who.userid']) \
                 .filter_by(date=parse_date.date()).all()
-            import q
             for event in unsmoke:
-                q(event)
                 DBSession.delete(event)
             DBSession.flush()
 
