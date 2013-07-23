@@ -90,21 +90,27 @@ def smoke_stats():
         year = smoke_data.filter(Cigarette.date >= now - timedelta(days=365)).all()
         month = smoke_data.filter(Cigarette.date >= now - timedelta(days=28)).all()
         week = smoke_data.filter(Cigarette.date >= now - timedelta(days=7)).all()
+
         smoke_data = smoke_data.all()
         (user,) = DBSession.query(User.display_name).filter_by(user_name=user).one()
 
-        newest_data = now - smoke_data[-1].date
-        oldest_data = now
+        newest_data = smoke_data[-1].date
+        oldest_data = smoke_data[0].date
 
         streak = timedelta()
-        last = smoke_data[0].date
-
-        for datum in smoke_data:
-            if oldest_data > datum.date:
-                oldest_data = datum.date
-            if datum.date - last > streak:
-                streak = datum.date - last
-            last = datum.date
+        if unsmoke_data:
+            start = last = unsmoke_data[0].date
+            tomorrow = timedelta(days=1)
+            for datum in unsmoke_data:
+                if datum.date == (last + tomorrow):
+                    # Update the current streak and check for length
+                    current_streak = datum.date - start
+                    if current_streak > streak:
+                        streak = current_streak
+                else:
+                    # Reset the start date
+                    start = datum.date
+                last = datum.date
 
         excuses = [(smoke_point.justification,
                     smoke_point.date.strftime('%d %b %Y %H:%M'))
