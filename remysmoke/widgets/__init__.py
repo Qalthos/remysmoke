@@ -133,27 +133,33 @@ def smoke_stats():
                               in counts], reverse=True)[:5]
 
         timespan = max((datetime.today() - oldest_data).days + 1, 1)
-        score = smoke_score(smoke_data, timespan)
+        score = smoke_score((smoke_data, year, month, week))
         dpp = 1.0 * timespan * 20 / len(smoke_data)
         cpm = len(smoke_data) * 10.50 * 30 / (20 * timespan)
         data[user] = dict(score=score, lifespan=dpp, cost=cpm,
-                          now=newest_data, best=streak, top=top_excuses,
+                          now=(now - newest_data), best=streak, top=top_excuses,
                           latest=latest_excuses, random=random_excuses)
 
     return data
 
-def smoke_score(smoke_data, timespan):
+def smoke_score(smoke_data):
     """Takes smoking stats and reduces those stats to a number."""
     delta = 0
-    for datum in smoke_data:
-        # Score is reduced by 1 for each hour difference
-        # Indulgences count as negative too
-        #delta += abs(datum.date - datum.submit_date).total_seconds() / 3600.
-        this_delta = abs(datum.date - datum.submit_date)
-        delta += this_delta.seconds / 3600. + this_delta.days / 24.
+    score = 0
+    weights = [.01, .1, .5, 1]
+    for collection, weight in zip(smoke_data, weights):
+        if not collection:
+            continue
+        timespan = (collection[-1].date - collection[0].date).days
+        for datum in collection:
+            # Score is reduced by 1 for each hour difference
+            # Indulgences count as negative too
+            #delta += abs(datum.date - datum.submit_date).total_seconds() / 3600.
+            this_delta = abs(datum.date - datum.submit_date)
+            delta += this_delta.seconds / 3600. + this_delta.days / 24.
 
-    # Score is [days of history] / [# of smokes] - delta
-    score = 24.0 * timespan / len(smoke_data) - delta
+        # Score is [days of history] / [# of smokes] - delta
+        score += weight * (24.0 * timespan / len(collection) - delta)
     return score
 
 def time_chart(weeks, period=1):
