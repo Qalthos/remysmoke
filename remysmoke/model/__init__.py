@@ -61,3 +61,4 @@ def init_model(engine):
 # Import your model modules here.
 from remysmoke.model.auth import User, Group, Permission
 from remysmoke.model.smoke import Cigarette
+from remysmoke.model.unsmoke import Unsmoke
