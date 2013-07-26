@@ -16,7 +16,7 @@ convert them into boolean, for example, you should use the
 import os
 
 from tg.configuration import AppConfig
-from pylons import config
+from tg import config
 
 import remysmoke
 from remysmoke import model

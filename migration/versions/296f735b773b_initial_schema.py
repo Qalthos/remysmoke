@@ -1,4 +1,4 @@
-"""Initial Schema
+"""Add Unsmoke
 
 Revision ID: 296f735b773b
 Revises: None

@@ -11,14 +11,14 @@ Install ``remysmoke`` using the setup.py script::
 
 Create the project database for any model classes defined::
 
-    $ paster setup-app development.ini
+    $ gearbox setup-app
 
 Start the paste http server::
 
-    $ paster serve development.ini
+    $ gearbox serve
 
 While developing you may want the server to reload after changes in package files (or its dependencies) are saved. This can be achieved easily by adding the --reload option::
 
-    $ paster serve --reload development.ini
+    $ gearbox serve --reload
 
 Then you are ready to go.
