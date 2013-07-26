@@ -1,22 +1,19 @@
 # -*- coding: utf-8 -*-
 """Main Controller"""
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
-from tg import expose, flash, require, lurl, request, redirect, validate
+from tg import expose, flash, require, lurl, request, redirect
 from tg.i18n import ugettext as _, lazy_ugettext as l_
 from repoze.what import predicates
-from tgext.admin.tgadminconfig import TGAdminConfig
-from tgext.admin.controller import AdminController
-from tgext.mobilemiddleware import expose_mobile
 from errorcats.error import ErrorController
 
 from remysmoke.lib.base import BaseController
-from remysmoke import model
 from remysmoke.model import DBSession
 from remysmoke.model.smoke import Cigarette
-from remysmoke.widgets import punch_chart, smoke_stats, time_chart
-from remysmoke.widgets.smoke import SmokeForm
+from remysmoke.model.unsmoke import Unsmoke
+from remysmoke.widgets.graphs import punch_chart, time_chart
+from remysmoke.widgets.stats import smoke_stats
 
 __all__ = ['RootController']
 
@@ -35,11 +32,9 @@ class RootController(BaseController):
     must be wrapped around with :class:`tg.controllers.WSGIAppController`.
 
     """
-    admin = AdminController(model, DBSession, config_type=TGAdminConfig)
     error = ErrorController()
 
     @expose('remysmoke.templates.index')
-    @expose_mobile('remysmoke.templates.mobile_index')
     def index(self):
         """Handle the front-page."""
         return dict()
@@ -68,28 +63,73 @@ class RootController(BaseController):
         """Show some stats about cigarette consumption."""
         return dict(data=smoke_stats())
 
-    @expose('remysmoke.templates.widget')
-    @expose_mobile('remysmoke.templates.mobile_widget')
+    @expose('remysmoke.templates.smoke')
     @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
     def smoke(self, **kw):
         """Register a new smoke."""
-        return dict(widget=SmokeForm.display())
+        if not kw.get('date'):
+            kw['date'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        return kw
 
-    @validate(SmokeForm, error_handler=smoke)
     @expose()
     @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
     def register_smoke(self, **kw):
         """Try to add the smoking data."""
-        smoke_data = Cigarette()
-        smoke_data.date = kw['date']
-        smoke_data.submit_date = datetime.now()
-        smoke_data.user = request.identity['repoze.who.userid']
-        smoke_data.justification = kw['justification']
-        DBSession.add(smoke_data)
-        redirect('/')
+        error = False
+        try:
+            parse_date = datetime.strptime(kw['date'], '%Y-%m-%d %H:%M:%S')
+        except ValueError:
+            kw['error.date'] = 'Date must be in format YYYY-MM-DD HH:MM:SS'
+            error = True
+
+        if kw.get('nosmoke'):
+            # This is a nonsmoking event
+            # Sanity Check: unsmoke should not occurr on a day with a
+            # registered smoke, or on a day with and existing unsmoke.
+            today = parse_date.date()
+            tomorrow = today + timedelta(days=1)
+
+            unsmoke = DBSession.query(Unsmoke.date) \
+                .filter_by(user=request.identity['repoze.who.userid']) \
+                .filter_by(date=today).all()
+            smoke = DBSession.query(Cigarette.date) \
+                .filter_by(user=request.identity['repoze.who.userid']) \
+                .filter(Cigarette.date.between(today, tomorrow)).all()
+            if smoke:
+                flash("You already registered a smoke for {}".format(today), 'error')
+                redirect('/smoke', params=kw)
+            elif unsmoke:
+                flash("You already marked {} as a non-smoking day.".format(today), 'info')
+                redirect('/smoke', params=kw)
+            else:
+                smoke_data = Unsmoke()
+                smoke_data.date = parse_date.date()
+        else:
+            # If there exists an unsmoke for today, probably best to delete it?
+            unsmoke = DBSession.query(Unsmoke) \
+                .filter_by(user=request.identity['repoze.who.userid']) \
+                .filter_by(date=parse_date.date()).all()
+            for event in unsmoke:
+                DBSession.delete(event)
+            DBSession.flush()
+
+            smoke_data = Cigarette()
+            smoke_data.date = parse_date
+            smoke_data.submit_date = datetime.now()
+            if kw['justification']:
+                smoke_data.justification = kw['justification']
+            else:
+                kw['error.justification'] = 'justification is required'
+                error = True
+
+        if not error:
+            smoke_data.user = request.identity['repoze.who.userid']
+            DBSession.add(smoke_data)
+            redirect('/')
+        else:
+            redirect('/smoke', params=kw)
 
     @expose('remysmoke.templates.login')
-    @expose_mobile('remysmoke.templates.mobile_login')
     def login(self, came_from=lurl('/')):
         """Start the user login."""
         login_counter = request.environ['repoze.who.logins']

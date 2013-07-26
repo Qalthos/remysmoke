@@ -34,6 +34,10 @@ a {
     background: url('../images/menu_mobile.png') top left no-repeat;
 }
 
+#menudiv {
+    background: #fff;
+}
+
 ul#mainmenu {
     margin: 0;
     padding: 0;
@@ -44,8 +48,9 @@ ul#mainmenu li {
     text-align: center;
     height: 38px;
     width: 170px;
-    margin: 20px auto;
-    padding: 0;
+    top: 20px;
+    margin: 0px auto;
+    padding-bottom: 20px;
     position: relative;
     background: url('../images/inputbg.png') left top no-repeat;
 }
@@ -59,10 +64,6 @@ ul#mainmenu li a {
     color: #fff;
 }
 
-ul#mainmenu li.first a {
-    background: none;
-}
-
 #content {
     background: #fff url('../images/content_mobile.png') left bottom no-repeat;
     margin : 0;
@@ -74,18 +75,15 @@ ul#mainmenu li.first a {
     margin-top: 0;
 }
 
-/* Login form*/
+/* Forms */
 
-#loginform
-{
-    text-align: center;
+form {
     background: url('../images/loginbg.png') top left repeat-y;
     width: 270px;
     margin: auto;
 }
 
-form.loginfields h2
-{
+form h2 {
     font-size: 16px;
     float: left;
     padding: 0;
@@ -93,8 +91,7 @@ form.loginfields h2
     background: url('../images/loginheader-left.png') top left no-repeat;
 }
 
-form.loginfields h2 span
-{
+form h2 span {
     background: url('../images/loginheader-right.png') right top no-repeat;
     height: 30px;
     line-height: 30px;
@@ -105,41 +102,45 @@ form.loginfields h2 span
     padding: 0 10px;
 }
 
-form.loginfields label
-{
-    clear: left;
-    float: left;
+form ul {
+    padding: 0;
+}
+
+form label {
     margin: 5px 10px;
     vertical-align: middle;
 }
 
-form.loginfields input.text
-{
-    float: left;
+form input.text {
     margin: 5px 25px;
     height: 21px;
+    width: 170px;
     padding: 5px;
     border: 0;
     background: url('../images/inputbg.png') top left no-repeat;
     color: #fff;
 }
 
-form.loginfields #loginremember
-{
+form span.error {
+    display: block;
+    color: #f00;
+    font-size: 20px;
+    margin: 10px 10px;
+}
+
+form #loginremember {
     float: left;
     margin: 15px;
 }
 
-#submit
-{
+#submit {
     background: url('../images/inputbg.png') bottom left no-repeat;
     color: #fff;
     width: 170px;
     height: 31px;
 }
 
-form.loginfields input#submit
-{
+form input#submit {
     background: url('../images/loginbottombg.png') bottom left no-repeat;
     width: 270px;
     height: 61px;

@@ -30,15 +30,13 @@ install_requires=[
     "zope.sqlalchemy >= 0.4",
     "repoze.tm2 >= 1.0a5",
     "sqlalchemy",
+    'alembic',
     "repoze.what >= 1.0.8",
     "repoze.who-friendlyform >= 1.0.4",
     "repoze.what-pylons >= 1.0",
     "repoze.who==1.0.19",
-    "tgext.admin >= 0.3.11",
     "repoze.what-quickstart",
     "repoze.what.plugins.sql>=1.0.1",
-    "tw2.core>=2.1.1",
-    "tw2.forms",
     "tgext.mobilemiddleware >= 0.4",
     "errorcats>=1.0.2",
     "pygal",
@@ -54,7 +52,7 @@ if sys.version_info[:2] == (2,4):
 
 setup(
     name='remysmoke',
-    version='1.1',
+    version='1.2',
     description='',
     author='',
     author_email='',
@@ -71,8 +69,7 @@ setup(
             ('**.py', 'python', None),
             ('templates/**.mako', 'mako', None),
             ('public/**', 'ignore', None)]},
-
-    entry_points= {
+    entry_points={
         'paste.app_factory': [
             'main = remysmoke.config.middleware:make_app'
         ],

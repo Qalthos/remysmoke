@@ -1,12 +1,8 @@
 html {
     background: #555555 url('../images/pagebg.png') top left repeat-x;
-    text-align: center;
-    margin: 0;
-    padding: 0;
 }
 
 body {
-    text-align: left;
     width: 960px;
     margin: 0 auto;
     padding: 0;
@@ -104,15 +100,8 @@ ul#mainmenu li.loginlogout a:hover
     margin-top: 0;
 }
 
-/* Login form*/
-
-#loginform
-{
-    text-align: center;
-}
-
-form.loginfields
-{
+/* Forms */
+form {
     text-align: left;
     width: 270px;
     background: url('../images/loginbg.png') top left no-repeat;
@@ -121,8 +110,7 @@ form.loginfields
     border: 0;
 }
 
-form.loginfields h2
-{
+form h2 {
     font-size: 16px;
     float: left;
     padding: 0;
@@ -131,15 +119,13 @@ form.loginfields h2
     background: url('../images/loginheader-left.png') top left no-repeat;
 }
 
-* html form.loginfields h2
-{
+* html form h2 {
     margin-left: 3px;
     width: 80px;
     text-align: center;
 }
 
-form.loginfields h2 span
-{
+form h2 span {
     background: url('../images/loginheader-right.png') right top no-repeat;
     height: 30px;
     line-height: 30px;
@@ -150,105 +136,89 @@ form.loginfields h2 span
     padding: 0 10px;
 }
 
-*+html form.loginfields h2 span
-{
+*+html form h2 span {
     padding: 0 20px;
 }
 
-form.loginfields label
-{
+form label {
     clear: left;
     float: left;
-    margin-top: 5px;
-    margin-left: 10px;
+    margin: 5px 5px 5px 10px;
     width: 65px;
     line-height: 31px;
     vertical-align: middle;
 }
 
-form.loginfields input.text
-{
+form input {
     float: left;
-    margin-left: 10px;
-    margin-top: 5px;
-    width: 165px;
+    margin: 5px 10px 5px 5px;
     height: 21px;
     padding: 5px;
     border: 0;
-    background: url('../images/inputbg.png') top left no-repeat;
     color: #fff;
 }
 
-form.loginfields #loginremember
-{
+form input.text {
+    width: 165px;
+    background: url('../images/inputbg.png') top left no-repeat;
+}
+
+form input.text:disabled {
+    background-image: url('../images/inputdisable.png');
+}
+
+form input.check {
+    opacity: 0;
+    margin-top: -40px;
+}
+
+form input.check + label {
+    display: block;
+    float: none;
+    width: 245px;
+    cursor: pointer;
+    background: url("../images/checkoff.png") top right no-repeat;
+}
+
+form input.check:checked + label {
+    background-image: url("../images/checkon.png");
+}
+
+form label:last-of-type {
+    padding-bottom: 10px;
+}
+
+form span.error {
+    display: block;
+    color: #f00;
+    margin: 0 10px;
+}
+
+form #loginremember {
     float:right;
     vertical-align: middle;
     height: 26px;
 }
 
-form.loginfields #labelremember
-{
-    float: right;
-    width: auto;
-    margin:0;
-    margin-right: 15px;
-    vertical-align: middle;
-}
-
-#submit
-{
+#submit {
     background: url('../images/inputbg.png') bottom left no-repeat;
     color: #fff;
     width: 170px;
     height: 31px;
 }
 
-form.loginfields input#submit
-{
+form input#submit {
     background: url('../images/loginbottombg.png') bottom left no-repeat;
     width: 270px;
     height: 61px;
     border: 0;
-    margin-top: 10px;
+    margin: -5px 0 0;
     padding: 10px 140px 20px 10px;
 }
 
-* html form.loginfields input#submit
-{
+* html form input#submit {
     clear: both;
     margin-left: -10px;
-}
-
-/* Sidebar */
-.sidebar {
-  border: 1px solid #cce;
-  background-color: #eee;
-  margin: 0.5em;
-  margin-left: 1.5em;
-  padding: 1em;
-  float: right;
-  width: 200px;
-  font-size: 88%;
-}
-
-.sidebar h2 {
-  margin-top: 0;
-  color: black;
-}
-
-.sidebar ul {
-  margin-left: 1.5em;
-  padding-left: 0;
-}
-
-
-
-#sb_top {
-  clear: right;
-}
-
-#sb_bottom {
-  clear: right;
 }
 
 #getting_started {
