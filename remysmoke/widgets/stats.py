@@ -10,6 +10,7 @@ from remysmoke.model.unsmoke import Unsmoke
 
 
 def smoke_stats():
+    """Produce a dictionary of statistics for each user."""
     smoke_users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
     data = {}
     now = datetime.today()
