@@ -20,6 +20,12 @@ a {
     background: url('../images/headerbg.png') top left no-repeat;
 }
 
+#header img {
+    float: left;
+    margin: 20px 20px;
+    width: 100px;
+}
+
 #header h1 {
     padding: 0;
     margin: 0;

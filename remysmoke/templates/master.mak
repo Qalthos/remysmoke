@@ -36,8 +36,8 @@
 
 <%def name="header()">
   <div id="header">
+    <img src="${tg.url('/images/smoke_face.png')}" />
     % if tg.request.is_mobile:
-      <img src="${tg.url('/images/smoke_face.png')}" />
       <h1>Remysmoke</h1>
     % else:
       <h1>
