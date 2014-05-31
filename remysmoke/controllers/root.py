@@ -40,23 +40,21 @@ class RootController(BaseController):
         return dict()
 
     @expose('remysmoke.templates.widget')
-    def week(self):
-        """Show cigarettes smoked per week (daily)."""
-        return dict(widget=time_chart(1))
-
-    @expose('remysmoke.templates.widget')
-    def month(self):
-        """Show cigarettes smoked per month (daily)."""
-        return dict(widget=time_chart(4))
-
-    @expose('remysmoke.templates.widget')
-    def year(self):
-        """Show cigarettes smoked per year (weekly)."""
-        return dict(widget=time_chart(52, 7))
-
-    @expose('remysmoke.templates.multichart')
-    def punch(self):
-        return dict(charts=punch_chart())
+    def graph(self, weeks=None, graph=None):
+        if weeks:
+            try:
+                weeks=int(weeks)
+            except ValueError:
+                return self.graph(weeks=1)
+            # timeseries graph
+            if weeks > 4:
+                return dict(widget=time_chart(weeks, 7), weeks=weeks)
+            else:
+                return dict(widget=time_chart(weeks * 7), weeks=weeks)
+        elif graph == 'punch':
+            return dict(widget=punch_chart())
+        else:
+            return dict(widget="Please select a graph type to the left.")
 
     @expose('remysmoke.templates.stats')
     def stats(self):

@@ -52,27 +52,23 @@ class DotConfig(BaseConfig):
 
 
 def punch_chart():
-    users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
-    charts = dict()
-    for (user,) in users:
-        cigarettes = DBSession.query(Cigarette).filter_by(user=user).all()
-        (name,) = DBSession.query(User.display_name) \
-                           .filter_by(user_name=user).one()
+    user = DBSession.query(Cigarette.user).group_by(Cigarette.user).one()[0]
+    cigarettes = DBSession.query(Cigarette).filter_by(user=user).all()
+    (name,) = DBSession.query(User.display_name) \
+                       .filter_by(user_name=user).one()
 
-        chart_data = collections.defaultdict(lambda: [0]*24)
-        for cigarette in cigarettes:
-            dow = cigarette.date.strftime('%A')
-            hour = cigarette.date.hour
-            chart_data[dow][hour] += 1
+    chart_data = collections.defaultdict(lambda: [0]*24)
+    for cigarette in cigarettes:
+        dow = cigarette.date.strftime('%A')
+        hour = cigarette.date.hour
+        chart_data[dow][hour] += 1
 
-        chart = Dot(DotConfig())
-        days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-        for dow in days:
-            chart.add(dow, chart_data[dow])
-        charts[name] = chart.render(is_unicode=True)
+    chart = Dot(DotConfig())
+    days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    for dow in days:
+        chart.add(dow, chart_data[dow])
 
-
-    return charts
+    return chart.render(is_unicode=True)
 
 
 def time_chart(weeks, period=1):
