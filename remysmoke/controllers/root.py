@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Main Controller"""
 
+import os
 from datetime import datetime, timedelta
 
 from tg import expose, flash, require, lurl, request, redirect
@@ -16,6 +17,12 @@ from remysmoke.widgets.graphs import punch_chart, time_chart
 from remysmoke.widgets.stats import smoke_stats
 
 __all__ = ['RootController']
+
+api_location = 'facebook.api'
+if os.environ.get('OPENSHIFT_APP_NAME'):
+    api_location = os.environ.get('OPENSHIFT_DATA_DIR') + api_location
+with open(api_location) as api_file:
+    facebook_api = api_file.read().strip()
 
 
 class RootController(BaseController):
@@ -134,7 +141,7 @@ class RootController(BaseController):
         login_counter = request.environ['repoze.who.logins']
         if login_counter > 0:
             flash(_('Wrong credentials'), 'warning')
-        return dict(login_counter=str(login_counter), came_from=came_from)
+        return dict(api_key=facebook_api, login_counter=str(login_counter), came_from=came_from)
 
     @expose()
     def post_login(self, came_from=lurl('/')):
