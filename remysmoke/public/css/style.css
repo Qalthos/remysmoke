@@ -200,7 +200,7 @@ form span.error {
     margin: 0 10px;
 }
 
-form #loginremember {
+form input.check {
     float:right;
     vertical-align: middle;
     height: 26px;
