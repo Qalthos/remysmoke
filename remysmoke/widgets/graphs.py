@@ -51,11 +51,8 @@ class DotConfig(BaseConfig):
         self.show_y_guides = True
 
 
-def punch_chart():
-    user = DBSession.query(Cigarette.user).group_by(Cigarette.user).one()[0]
-    cigarettes = DBSession.query(Cigarette).filter_by(user=user).all()
-    (name,) = DBSession.query(User.display_name) \
-                       .filter_by(user_name=user).one()
+def punch_chart(user):
+    cigarettes = DBSession.query(Cigarette).filter_by(user=user.user_name).all()
 
     chart_data = collections.defaultdict(lambda: [0]*24)
     for cigarette in cigarettes:
@@ -71,7 +68,7 @@ def punch_chart():
     return chart.render(is_unicode=True)
 
 
-def time_chart(weeks, period=1):
+def time_chart(user, weeks, period=1):
     """Get information from a specified interval."""
 
     date_range = weeks * 7 // period
@@ -82,29 +79,19 @@ def time_chart(weeks, period=1):
     now = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0) \
         + timedelta(days=1)
     past = now - timedelta(weeks=weeks)
-    users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
-    users_data = {}
 
-    for (user,) in users:
-        data = DBSession.query(Cigarette).filter_by(user=user) \
-                        .filter(Cigarette.date >= past).all()
-        (user,) = DBSession.query(User.display_name) \
-                           .filter_by(user_name=user).one()
+    data = DBSession.query(Cigarette).filter_by(user=user.user_name) \
+                                     .filter(Cigarette.date >= past).all()
+    # pre-fill the dictionary with zeroes
+    freq_data = {(past + x*period): 0 for x in range(date_range)}
+    for datum in data:
+        distance = (datum.date - past).total_seconds() // period.total_seconds()
+        freq_data[past + (int(distance) * period)] += 1
 
-        # pre-fill the dictionary with zeroes
-        freq_data = {(past + x*period): 0 for x in range(date_range)}
-        for datum in data:
-            distance = (datum.date - past).total_seconds() // period.total_seconds()
-            freq_data[past + (int(distance) * period)] += 1
-
-        users_data[user] = freq_data
-
-    if not users_data:
+    if not freq_data:
         chart = 'No data to display.'
     else:
         chart = DateY(LineConfig())
-        contents = users_data.items()
-        for (name, user_data) in contents:
-            chart.add(name, sorted(user_data.items()))
-            chart = chart.render(is_unicode=True)
+        chart.add(user.display_name, sorted(freq_data.items()))
+        chart = chart.render(is_unicode=True)
     return chart

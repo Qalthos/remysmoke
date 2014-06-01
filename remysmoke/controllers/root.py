@@ -41,6 +41,7 @@ class RootController(BaseController):
 
     @expose('remysmoke.templates.widget')
     def graph(self, weeks=None, graph=None):
+        user = request.identity['user']
         if weeks:
             try:
                 weeks=int(weeks)
@@ -48,11 +49,11 @@ class RootController(BaseController):
                 return self.graph(weeks=1)
             # timeseries graph
             if weeks > 4:
-                return dict(widget=time_chart(weeks, 7), weeks=weeks)
+                return dict(widget=time_chart(user, weeks, 7), weeks=weeks)
             else:
-                return dict(widget=time_chart(weeks * 7), weeks=weeks)
+                return dict(widget=time_chart(user, weeks * 7), weeks=weeks)
         elif graph == 'punch':
-            return dict(widget=punch_chart())
+            return dict(widget=punch_chart(user))
         else:
             return dict(widget="Please select a graph type to the left.")
 
