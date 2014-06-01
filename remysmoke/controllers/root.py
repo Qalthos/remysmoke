@@ -10,9 +10,7 @@ from repoze.what import predicates
 from errorcats.error import ErrorController
 
 from remysmoke.lib.base import BaseController
-from remysmoke.model import DBSession
-from remysmoke.model.smoke import Cigarette
-from remysmoke.model.unsmoke import Unsmoke
+from remysmoke.model import DBSession, User, Cigarette, Unsmoke
 from remysmoke.widgets.graphs import punch_chart, time_chart
 from remysmoke.widgets.stats import smoke_stats
 
@@ -46,28 +44,55 @@ class RootController(BaseController):
         """Handle the front-page."""
         return dict()
 
+    def pick_a_user(self, user_name=None):
+        public_users = DBSession.query(User).filter_by(public=True)
+        all_public = public_users.all()
+        try:
+            user = public_users.filter_by(user_name=user_name).one()
+        except Exception:
+            if request.identity:
+                user = request.identity['user']
+                all_public.append(user)
+            else:
+                user = public_users.first()
+        return all_public, user
+
     @expose('remysmoke.templates.widget')
-    def graph(self, weeks=None, graph=None):
-        user = request.identity['user']
-        if weeks:
+    def graph(self, user_name=None, weeks=None, graph=None):
+        # Pick one user to look at
+        public, user = self.pick_a_user(user_name)
+        return_data = {'public_users': public}
+
+        if not user:
+            return_data['widget'] = 'No user selected.'
+        elif weeks:
             try:
                 weeks=int(weeks)
             except ValueError:
                 return self.graph(weeks=1)
             # timeseries graph
             if weeks > 4:
-                return dict(widget=time_chart(user, weeks, 7), weeks=weeks)
+                return_data.update(dict(widget=time_chart(user, weeks, 7), weeks=weeks))
             else:
-                return dict(widget=time_chart(user, weeks * 7), weeks=weeks)
+                return_data.update(dict(widget=time_chart(user, weeks * 7), weeks=weeks))
         elif graph == 'punch':
-            return dict(widget=punch_chart(user))
+            return_data['widget']=punch_chart(user)
         else:
-            return dict(widget="Please select a graph type to the left.")
+            return_data['widget']="Please select a graph type above."
+        return return_data
 
     @expose('remysmoke.templates.stats')
-    def stats(self):
+    def stats(self, user_name=None):
         """Show some stats about cigarette consumption."""
-        return dict(data=smoke_stats())
+
+        # Pick one user to look at
+        public, user = self.pick_a_user(user_name)
+        return_data = dict(public_users=public)
+        if not user:
+            return_data['data']=None
+        else:
+            return_data.update(dict(user=user, data=smoke_stats(user)))
+        return return_data
 
     @expose('remysmoke.templates.smoke')
     @require(predicates.not_anonymous())
