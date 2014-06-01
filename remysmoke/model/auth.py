@@ -21,7 +21,7 @@ except ImportError:
 __all__ = ['User', 'Group', 'Permission']
 
 from sqlalchemy import Table, ForeignKey, Column
-from sqlalchemy.types import Unicode, Integer, DateTime
+from sqlalchemy.types import Boolean, Unicode, Integer, DateTime
 from sqlalchemy.orm import relation, synonym
 
 from remysmoke.model import DeclarativeBase, metadata, DBSession
@@ -114,6 +114,7 @@ class User(DeclarativeBase):
                        info={'rum': {'field':'Password'}})
 
     created = Column(DateTime, default=datetime.now)
+    public = Column(Boolean, default=False)
 
     #{ Special methods
 

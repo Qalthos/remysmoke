@@ -144,6 +144,12 @@ class RootController(BaseController):
         return dict(api_key=facebook_api, login_counter=str(login_counter), came_from=came_from)
 
     @expose()
+    @require(predicates.not_anonymous())
+    def user_control(self, public=False):
+        request.identity['user'].public=bool(public)
+        redirect('/login')
+
+    @expose()
     def post_login(self, came_from=lurl('/')):
         """
         Redirect the user to the initially requested page on successful
