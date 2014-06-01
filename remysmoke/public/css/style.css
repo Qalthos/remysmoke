@@ -14,18 +14,17 @@ a {
     color: #286571;
 }
 
+/* Header */
 #header {
     height: 132px;
     margin: 10px 10px 0 10px;
     background: url('../images/headerbg.png') top left no-repeat;
 }
-
 #header img {
     float: left;
     margin: 20px 20px;
     width: 100px;
 }
-
 #header h1 {
     padding: 0;
     margin: 0;
@@ -35,7 +34,6 @@ a {
     position: relative;
     font-size: 36px;
 }
-
 #header h1 .subtitle {
     font-size: 60%;
     position: absolute;
@@ -43,13 +41,13 @@ a {
     top: 70px;
 }
 
+/* Menu */
 ul#mainmenu {
     margin: 0;
     padding: 0 10px;
     background: url('../images/menubg.png') top left no-repeat;
     height: 38px;
 }
-
 ul#mainmenu li {
     list-style-type: none;
     margin: 0;
@@ -58,7 +56,6 @@ ul#mainmenu li {
     display: inline;
     float: left;
 }
-
 ul#mainmenu li a {
     color: #fff;
     float: left;
@@ -71,27 +68,20 @@ ul#mainmenu li a {
     text-decoration: none;
     background: url('../images/menu-item-border.png') left top no-repeat;
 }
-
 ul#mainmenu li a:hover, ul#mainmenu li a.active {
     background: url('../images/menu-item-actibg.png') left top no-repeat;
 }
-
 ul#mainmenu li.first a {
     background: none;
 }
-
 ul#mainmenu li.first a:hover, ul#mainmenu li.first a.active {
     background: url('../images/menu-item-actibg-first.png') left top no-repeat;
 }
-
-ul#mainmenu li.loginlogout
-{
+ul#mainmenu li.loginlogout {
     float: right;
     right: 10px;
 }
-
-ul#mainmenu li.loginlogout a:hover
-{
+ul#mainmenu li.loginlogout a:hover {
     background: url('../images/menu-item-border.png') left top no-repeat;
 }
 
@@ -101,7 +91,6 @@ ul#mainmenu li.loginlogout a:hover
     padding: 0 10px;
     overflow: hidden;
 }
-
 #content .currentpage {
     margin-top: 0;
 }
@@ -235,6 +224,11 @@ span.code {
 background:#EEEEEE none repeat scroll 0% 0%;
 font-weight:bold;
 }
+div.clearingdiv {
+clear:both;
+}
+
+/* Flash */
 #flash, .notice {
 font-size:120%;
 font-weight:bolder;
@@ -253,8 +247,7 @@ background:#fff483 url(../images/warning.png) no-repeat scroll 10px center;
 #flash .error {
 background:#f9c5c1 url(../images/error.png) no-repeat scroll 10px center;
 }
-#flash .alert,
-#flash .info {
+#flash .alert, #flash .info {
 background:#EEEEFF url(../images/info.png) no-repeat scroll 10px center;
 }
 .notice {
@@ -263,16 +256,6 @@ background:#EEEEFF url(../images/info.png) no-repeat scroll 10px center;
 .fielderror {
 color:red;
 font-weight:bold;
-}
-div.clearingdiv {
-clear:both;
-}
-
-form li {
-  list-style: none;
-}
-form li div {
-  display: inline-block;
 }
 
 /* Chart selection forms */
