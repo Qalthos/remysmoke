@@ -4,7 +4,7 @@
       <h2><span>Other users</span></h2>
       <label for='user'>User</label>
       <input type='text' id='user' name='user_name' class='text' list='users'
-             value='${user.display_name if user else public_users[0].display_name}' />
+             value='${request.identity['user'].display_name if request.identity else public_users[0].display_name}' />
       <datalist id='users'>
         % for visible_user in public_users:
           <option>${visible_user.display_name}</option>
