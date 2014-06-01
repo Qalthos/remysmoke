@@ -11,7 +11,11 @@
     % elif not request.identity['user'].fbauth:
       ${h.fbauth.connect_button(api_key, text='Connect your Facebook account', scope=None)}
     % else:
-      <input type='checkbox' id='public' name='public' class='check' />
+      <input type='checkbox' id='public' name='public' class='check'
+        % if request.identity['user'].public:
+          checked=true
+        % endif
+      />
       <label for='public'>Make my data public:</label>
       <input type='submit' id='submit' value='Save' />
     % endif
