@@ -222,25 +222,9 @@ form input.submit {
     padding: 10px 140px 20px 10px;
 }
 
-* html form input#submit {
+* html form input.submit {
     clear: both;
     margin-left: -10px;
-}
-
-#getting_started {
-  margin-left: 20px;
-}
-
-#getting_started_steps a {
-  text-decoration: none;
-}
-
-#getting_started_steps a:hover {
-  text-decoration: underline;
-}
-
-#getting_started_steps li {
-  margin-bottom: 0.5em;
 }
 
 /* Other and footer */
