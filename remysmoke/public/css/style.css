@@ -206,14 +206,14 @@ form input.check {
     height: 26px;
 }
 
-#submit {
+input.submit {
     background: url('../images/inputbg.png') bottom left no-repeat;
     color: #fff;
     width: 170px;
     height: 31px;
 }
 
-form input#submit {
+form input.submit {
     background: url('../images/loginbottombg.png') bottom left no-repeat;
     width: 270px;
     height: 61px;

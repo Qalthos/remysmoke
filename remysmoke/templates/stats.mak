@@ -1,6 +1,9 @@
 <%inherit file="local:templates.master" />
 
-<%include file='local:templates.user_picker' />
+<form class='user_pick' action='${tg.url('stats')}'>
+  <%include file='local:templates.user_picker' />
+  <input type='submit' class='submit' />
+</form>
 % if not data:
   Nothing to show yet...
 % else:
