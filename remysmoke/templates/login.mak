@@ -1,12 +1,17 @@
 <%inherit file="local:templates.master"/>
 <%def name="title()">Login Form</%def>
-<div id="loginform">
-  <form action="${tg.url('/login_handler', params=dict(came_from=came_from.encode('utf-8'), __logins=login_counter.encode('utf-8')))}" method="POST" class="loginfields">
-    <h2><span>Login</span></h2>
-    <label for="login">Username:</label><input type="text" id="login" name="login" class="text"></input><br/>
-    <label for="password">Password:</label><input type="password" id="password" name="password" class="text"></input>
-    <input type="checkbox" id="loginremember" name="remember" class="check" value="2252000"/>
-    <label id="labelremember" for="loginremember">remember me</label>
-    <input type="submit" id="submit" value="Login" />
-</form>
+
+<div id='loginform'>
+  <form action="${tg.url('user_control')}" class='loginfields'>
+    <h2><span>User Control</span></h2>
+    % if not request.identity:
+      ${h.fbauth.register_button(appid, text='Login with Facebook', scope=None, remember='')}
+    % elif not request.identity['user'].fbauth:
+      ${h.fbauth.connect_button(appid, text='Connect your Facebook account', scope=None)}
+    % else:
+      <input type='checkbox' id='public' name='public' class='check' />
+      <label for='public'>Make my data public:</label>
+      <input type='submit' id='submit' value='Save' />
+    % endif
+  </form>
 </div>

@@ -12,20 +12,9 @@ def bootstrap(command, conf, vars):
     # <websetup.bootstrap.before.auth
     from sqlalchemy.exc import IntegrityError
     try:
-        u1 = model.User()
-        u1.user_name = u'editor'
-        u1.display_name = u'Example editor'
-        u1.email_address = u'editor@somedomain.com'
-        u1.password = u'editpass'
-
-        model.DBSession.add(u1)
-
         g = model.Group()
         g.group_name = u'smokers'
         g.display_name = u'Smokers Group'
-
-        g.users.append(u1)
-
         model.DBSession.add(g)
 
         p = model.Permission()

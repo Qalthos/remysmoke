@@ -26,6 +26,8 @@ testpkgs=[
 ]
 install_requires=[
     "TurboGears2 >= 2.2",
+    'tgapp-fbauth',
+    "PasteDeploy",
     "Mako",
     "zope.sqlalchemy >= 0.4",
     "repoze.tm2 >= 1.0a5",
@@ -45,10 +47,6 @@ if os.environ.get('OPENSHIFT_REPO_DIR'):
     install_requires.append("tg.devtools")
     install_requires.append("gevent")
     install_requires.append("mysql-python == 1.2.3") # setuptools 0.7
-
-if sys.version_info[:2] == (2,4):
-    testpkgs.extend(['hashlib', 'pysqlite'])
-    install_requires.extend(['hashlib', 'pysqlite'])
 
 setup(
     name='remysmoke',
