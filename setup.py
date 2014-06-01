@@ -25,9 +25,10 @@ testpkgs=[
     'repoze.who-testutil >= 1.0.1',
 ]
 install_requires=[
-    "TurboGears2 >= 2.2",
+    "TurboGears2 >= 2.3",
     'tgapp-fbauth',
     "PasteDeploy",
+    "MarkupSafe>=0.15",
     "Mako",
     "zope.sqlalchemy >= 0.4",
     "repoze.tm2 >= 1.0a5",
@@ -50,7 +51,7 @@ if os.environ.get('OPENSHIFT_REPO_DIR'):
 
 setup(
     name='remysmoke',
-    version='1.2.1',
+    version='1.3.0',
     description='',
     author='',
     author_email='',
