@@ -7,7 +7,6 @@
 % if not data:
   Nothing to show yet...
 % else:
-  ${user.display_name}'s data':
   <div>
     <div style='width:50%; float:left'>
       Score:<br/>
