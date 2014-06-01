@@ -1,7 +1,6 @@
 html {
     background: #555555 url('../images/pagebg.png') top left repeat-x;
 }
-
 body {
     width: 960px;
     margin: 0 auto;
@@ -9,7 +8,6 @@ body {
     font-size: 12px;
     font-family:"Lucida Grande","Lucida Sans Unicode",geneva,verdana,sans-serif;
 }
-
 a {
     color: #286571;
 }
@@ -88,7 +86,7 @@ ul#mainmenu li.loginlogout a:hover {
 #content {
     background: #fff url('../images/contentbg.png') left bottom no-repeat;
     margin : 0 10px 10px 10px;
-    padding: 0 10px;
+    padding: 5px 20px;
     overflow: hidden;
 }
 #content .currentpage {
@@ -134,7 +132,7 @@ form label {
     clear: left;
     float: left;
     margin: 5px 5px 5px 10px;
-    width: 65px;
+    min-width: 65px;
     line-height: 31px;
     vertical-align: middle;
 }
@@ -227,6 +225,11 @@ font-weight:bold;
 div.clearingdiv {
 clear:both;
 }
+div.fb_contain {
+    margin: auto;
+    width: 145px;
+    padding-bottom: 10px;
+}
 
 /* Flash */
 #flash, .notice {
@@ -262,12 +265,13 @@ font-weight:bold;
 form.chart {
     width:810px;
     height:150px;
-    background-repeat:repeat-x;
+    background: none;
 }
 form.user_pick {
     float:right;
 }
 fieldset {
+    background: url('../images/loginbg.png') top left no-repeat;
     width:270px;
     display:inline;
     float:left;
