@@ -69,7 +69,7 @@ class RootController(BaseController):
     def graph(self, user_name=None, **kwargs):
         # Pick one user to look at
         public, user = self.pick_a_user(user_name)
-        return_data = {'public_users': public}
+        return_data = {'public_users': public, 'user': user}
 
         if not user:
             return_data['widget'] = 'No user selected.'
