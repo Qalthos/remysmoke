@@ -137,7 +137,6 @@ form label {
     vertical-align: middle;
 }
 form input {
-    float: left;
     margin: 5px 10px 5px 5px;
     height: 21px;
     padding: 5px;
