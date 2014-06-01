@@ -260,7 +260,9 @@ font-weight:bold;
 
 /* Chart selection forms */
 form.chart {
-    width:100%;
+    width:810px;
+    height:150px;
+    background-repeat:repeat-x;
 }
 form.user_pick {
     float:right;
@@ -269,7 +271,7 @@ fieldset {
     width:270px;
     display:inline;
     float:left;
-    margin:-4px;
+    margin:0;
     padding:0;
     border:0;
 }
