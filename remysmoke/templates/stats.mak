@@ -8,11 +8,11 @@
   Nothing to show yet...
 % else:
   <div>
-    <div style='width:50%; float:left'>
+    <div class='topstat'>
       Score:<br/>
       <span style='font-size:48px'>${'%.2f' % data['score']}</span>
     </div>
-    <div style='width:50%; float:left'>
+    <div class='topstat'>
       Average lifespan of a pack: ${'%.2f' % data['lifespan']} days<br/>
       Cost per month: $${'%.2f' % data['cost']}<br/>
       Time since last smoke: ${data['now']}<br/>

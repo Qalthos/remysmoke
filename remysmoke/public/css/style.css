@@ -115,7 +115,6 @@ form {
     margin: 0 auto;
     border: 0;
 }
-
 form h2 {
     font-size: 16px;
     float: left;
@@ -124,13 +123,11 @@ form h2 {
     margin-top: 0;
     background: url('../images/loginheader-left.png') top left no-repeat;
 }
-
 * html form h2 {
     margin-left: 3px;
     width: 80px;
     text-align: center;
 }
-
 form h2 span {
     background: url('../images/loginheader-right.png') right top no-repeat;
     height: 30px;
@@ -141,11 +138,9 @@ form h2 span {
     color: #fff;
     padding: 0 10px;
 }
-
 *+html form h2 span {
     padding: 0 20px;
 }
-
 form label {
     clear: left;
     float: left;
@@ -154,7 +149,6 @@ form label {
     line-height: 31px;
     vertical-align: middle;
 }
-
 form input {
     float: left;
     margin: 5px 10px 5px 5px;
@@ -163,21 +157,17 @@ form input {
     border: 0;
     color: #fff;
 }
-
 form input.text {
     width: 165px;
     background: url('../images/inputbg.png') top left no-repeat;
 }
-
 form input.text:disabled {
     background-image: url('../images/inputdisable.png');
 }
-
 form input.check {
     opacity: 0;
     margin-top: -40px;
 }
-
 form input.check + label {
     display: block;
     float: none;
@@ -185,34 +175,28 @@ form input.check + label {
     cursor: pointer;
     background: url("../images/checkoff.png") top right no-repeat;
 }
-
 form input.check:checked + label {
     background-image: url("../images/checkon.png");
 }
-
 form label:last-of-type {
     padding-bottom: 10px;
 }
-
 form span.error {
     display: block;
     color: #f00;
     margin: 0 10px;
 }
-
 form input.check {
     float:right;
     vertical-align: middle;
     height: 26px;
 }
-
 input.submit {
     background: url('../images/inputbg.png') bottom left no-repeat;
     color: #fff;
     width: 170px;
     height: 31px;
 }
-
 form input.submit {
     background: url('../images/loginbottombg.png') bottom left no-repeat;
     width: 270px;
@@ -221,7 +205,6 @@ form input.submit {
     margin: -5px 0 0;
     padding: 10px 140px 20px 10px;
 }
-
 * html form input.submit {
     clear: both;
     margin-left: -10px;
@@ -306,4 +289,10 @@ fieldset {
     margin:-4px;
     padding:0;
     border:0;
+}
+
+/* Stats page */
+div.topstat {
+    width:30%;
+    float:left;
 }
