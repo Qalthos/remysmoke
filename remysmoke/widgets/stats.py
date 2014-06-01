@@ -9,40 +9,37 @@ from remysmoke.model.smoke import Cigarette
 from remysmoke.model.unsmoke import Unsmoke
 
 
-def smoke_stats():
+def smoke_stats(user):
     """Produce a dictionary of statistics for each user."""
-    smoke_users = DBSession.query(Cigarette.user).group_by(Cigarette.user).all()
-    data = {}
     now = datetime.today()
-    for (user,) in smoke_users:
-        smoke_data = DBSession.query(Cigarette).filter_by(user=user) \
-                              .order_by(Cigarette.date)
-        unsmoke_data = DBSession.query(Unsmoke).filter_by(user=user) \
-                                .order_by(Unsmoke.date).all()
-        (user,) = DBSession.query(User.display_name).filter_by(user_name=user).one()
+    smoke_data = DBSession.query(Cigarette).filter_by(user=user.user_name) \
+                          .order_by(Cigarette.date)
+    unsmoke_data = DBSession.query(Unsmoke).filter_by(user=user.user_name) \
+                            .order_by(Unsmoke.date).all()
+    user = user.display_name
 
-        year = smoke_data.filter(Cigarette.date >= now - timedelta(days=365)).all()
-        month = smoke_data.filter(Cigarette.date >= now - timedelta(days=28)).all()
-        week = smoke_data.filter(Cigarette.date >= now - timedelta(days=7)).all()
-        smoke_data = smoke_data.all()
+    year = smoke_data.filter(Cigarette.date >= now - timedelta(days=365)).all()
+    month = smoke_data.filter(Cigarette.date >= now - timedelta(days=28)).all()
+    week = smoke_data.filter(Cigarette.date >= now - timedelta(days=7)).all()
+    smoke_data = smoke_data.all()
+    if not smoke_data:
+        return dict()
 
-        # Complex calculations get their own function
-        streak = calculate_streak(unsmoke_data)
-        latest_excuses, random_excuses, top_excuses = get_excuses(smoke_data)
-        score = smoke_score((smoke_data, year, month, week))
+    # Complex calculations get their own function
+    streak = calculate_streak(unsmoke_data)
+    latest_excuses, random_excuses, top_excuses = get_excuses(smoke_data)
+    score = smoke_score((smoke_data, year, month, week))
 
-        # Other simple stats
-        newest_data = smoke_data[-1].date
-        oldest_data = smoke_data[0].date
-        timespan = max((datetime.today() - oldest_data).days + 1, 1)
-        dpp = 1.0 * timespan * 20 / len(smoke_data)
-        cpm = len(smoke_data) * 10.50 * 30 / (20 * timespan)
+    # Other simple stats
+    newest_data = smoke_data[-1].date
+    oldest_data = smoke_data[0].date
+    timespan = max((datetime.today() - oldest_data).days + 1, 1)
+    dpp = 1.0 * timespan * 20 / len(smoke_data)
+    cpm = len(smoke_data) * 10.50 * 30 / (20 * timespan)
 
-        data[user] = dict(score=score, lifespan=dpp, cost=cpm,
-                          now=(now - newest_data), best=streak, top=top_excuses,
-                          latest=latest_excuses, random=random_excuses)
-
-    return data
+    return dict(score=score, lifespan=dpp, cost=cpm,
+                now=(now - newest_data), best=streak, top=top_excuses,
+                latest=latest_excuses, random=random_excuses)
 
 
 def calculate_streak(unsmoke_data):

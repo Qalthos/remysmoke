@@ -16,6 +16,9 @@
     <p>Other</p>
     <a href="${tg.url('/graph?graph=punch')}" class="${('', 'active')}">Smoking Punchcard</a></li>
   </div>
+  <div style='float:left; width:40%'>
+    <%include file='local:templates.user_picker'/>
+  </div>
 </div>
 
 <div style='height:230px'>
