@@ -62,7 +62,7 @@ class RootController(BaseController):
         return dict(data=smoke_stats())
 
     @expose('remysmoke.templates.smoke')
-    @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
+    @require(predicates.not_anonymous())
     def smoke(self, **kw):
         """Register a new smoke."""
         if not kw.get('date'):
@@ -70,7 +70,7 @@ class RootController(BaseController):
         return kw
 
     @expose()
-    @require(predicates.has_permission('smoke', msg=l_('Only for smokers')))
+    @require(predicates.not_anonymous())
     def register_smoke(self, **kw):
         """Try to add the smoking data."""
         error = False
@@ -146,8 +146,8 @@ class RootController(BaseController):
             login_counter = request.environ['repoze.who.logins'] + 1
             redirect('/login',
                 params=dict(came_from=came_from, __logins=login_counter))
-        userid = request.identity['repoze.who.userid']
-        flash(_('Welcome back, %s!') % userid)
+        user_name = request.identity['user'].display_name
+        flash(_('Welcome back, %s!') % user_name)
         redirect(came_from)
 
     @expose()

@@ -62,9 +62,7 @@
           % if not request.identity:
             <li id="login" class="loginlogout"><a href="${tg.url('/login')}">Login</a></li>
           % else:
-            %if 'smoke' in request.identity['permissions']:
-              <li id="admin"><a href="${tg.url('/smoke')}">Add Smoke</a></li>
-            %endif
+            <li id="admin"><a href="${tg.url('/smoke')}">Add Smoke</a></li>
             <li id="login" class="loginlogout"><a href="${tg.url('/logout_handler')}">Logout</a></li>
           % endif
         </span>
