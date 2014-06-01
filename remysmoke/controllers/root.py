@@ -66,16 +66,18 @@ class RootController(BaseController):
         return all_public, user
 
     @expose('remysmoke.templates.widget')
-    def graph(self, user_name=None, weeks=None, graph=None):
+    def graph(self, user_name=None, **kwargs):
         # Pick one user to look at
         public, user = self.pick_a_user(user_name)
         return_data = {'public_users': public}
 
         if not user:
             return_data['widget'] = 'No user selected.'
-        elif weeks:
+        elif kwargs.get('punchcard'):
+            return_data['widget']=punch_chart(user)
+        elif kwargs.get('weeks'):
             try:
-                weeks=int(weeks)
+                weeks=int(kwargs['weeks'])
             except ValueError:
                 return self.graph(weeks=1)
             # timeseries graph
@@ -83,8 +85,6 @@ class RootController(BaseController):
                 return_data.update(dict(widget=time_chart(user, weeks, 7), weeks=weeks))
             else:
                 return_data.update(dict(widget=time_chart(user, weeks * 7), weeks=weeks))
-        elif graph == 'punch':
-            return_data['widget']=punch_chart(user)
         else:
             return_data['widget']="Please select a graph type above."
         return return_data

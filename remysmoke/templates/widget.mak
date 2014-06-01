@@ -7,12 +7,13 @@
 <form action=${tg.url('graph')} class='chart'>
   <fieldset>
     <h2><span>Histogram</span></h2>
-    <input name='weeks' type='range' min=1 max=52 value=${weeks if weeks else 1} />
-      <input type='submit' class='submit' />
+    <label for='weeks'>Range</label>
+    <input name='weeks' id='weeks' type='range' min=1 max=52 value=${weeks if weeks else 1} />
+    <input type='submit' name='histogram' id='time_submit' class='submit' value='Generate' />
   </fieldset>
   <fieldset>
     <h2><span>Punchcard</span></h2>
-    <a href="${tg.url('/graph?graph=punch')}" class="${('', 'active')}">Smoking Punchcard</a></li>
+    <input type='submit' name='punchcard' id='punch_submit' class='submit' value='Generate' />
   </fieldset>
   <%include file='local:templates.user_picker'/>
 </form>
