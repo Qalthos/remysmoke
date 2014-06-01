@@ -1,7 +1,8 @@
+@import url('/css/style.css');
+
 html {
     background: #555555 url('../images/pagebg.png') top left repeat-x;
 }
-
 body {
     width: 300px;
     margin: 0 auto;
@@ -9,41 +10,45 @@ body {
     font-size: 24px;
     font-family:"Lucida Grande","Lucida Sans Unicode",geneva,verdana,sans-serif;
 }
-
 a {
     color: #286571;
 }
 
+/* Header */
 #header {
     height: 132px;
     margin: auto;
     background: url('../images/header_mobile.png') top left no-repeat;
 }
-
 #header img {
+    float: none;
     margin: 4px 100px;
     width: 100px;
 }
-
 #header h1 {
+    background: url('../images/menu_mobile.png') top left no-repeat;
     margin: 0;
+    padding: 0;
     color: #fff;
     position: relative;
     font-size: 24px;
     text-align: center;
-    background: url('../images/menu_mobile.png') top left no-repeat;
 }
 
+/* Main menu */
 #menudiv {
     background: #fff;
 }
-
 ul#mainmenu {
+    background: none;
     margin: 0;
     padding: 0;
+    height: auto;
 }
-
 ul#mainmenu li {
+    background: url('../images/inputbg.png') left top no-repeat;
+    float: none;
+    display: list-item;
     list-style-type: none;
     text-align: center;
     height: 38px;
@@ -52,37 +57,42 @@ ul#mainmenu li {
     margin: 0px auto;
     padding-bottom: 20px;
     position: relative;
-    background: url('../images/inputbg.png') left top no-repeat;
 }
-
+ul#mainmenu li.loginlogout {
+    float: inherit;
+    right: 0;
+}
 ul#mainmenu li a {
     display: block;
+    float: none;
+    font-size: inherit;
     line-height: 28px;
     vertical-align: middle;
     padding: 0 10px;
     text-decoration: none;
     color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+/* Main content */
 #content {
     background: #fff url('../images/content_mobile.png') left bottom no-repeat;
     margin : 0;
     padding: 0 10px;
     overflow: hidden;
 }
-
 #content .currentpage {
     margin-top: 0;
 }
 
 /* Forms */
-
 form {
     background: url('../images/loginbg.png') top left repeat-y;
     width: 270px;
     margin: auto;
 }
-
 form h2 {
     font-size: 16px;
     float: left;
@@ -90,7 +100,6 @@ form h2 {
     margin: 0 5px;
     background: url('../images/loginheader-left.png') top left no-repeat;
 }
-
 form h2 span {
     background: url('../images/loginheader-right.png') right top no-repeat;
     height: 30px;
@@ -101,16 +110,13 @@ form h2 span {
     color: #fff;
     padding: 0 10px;
 }
-
 form ul {
     padding: 0;
 }
-
 form label {
     margin: 5px 10px;
     vertical-align: middle;
 }
-
 form input.text {
     margin: 5px 25px;
     height: 21px;
@@ -120,27 +126,23 @@ form input.text {
     background: url('../images/inputbg.png') top left no-repeat;
     color: #fff;
 }
-
 form span.error {
     display: block;
     color: #f00;
     font-size: 20px;
     margin: 10px 10px;
 }
-
 form #loginremember {
     float: left;
     margin: 15px;
 }
-
-#submit {
+.submit {
     background: url('../images/inputbg.png') bottom left no-repeat;
     color: #fff;
     width: 170px;
     height: 31px;
 }
-
-form input#submit {
+form input.submit {
     background: url('../images/loginbottombg.png') bottom left no-repeat;
     width: 270px;
     height: 61px;
@@ -175,10 +177,10 @@ background:#EEEEEE none repeat scroll 0% 0%;
 font-weight:bold;
 }
 #flash, .notice {
-font-size:120%;
-font-weight:bolder;
-margin:0pt auto 0.5em;
-width:680px;
+    font-size:80%;
+    font-weight:bolder;
+    margin:0pt auto 0.5em;
+    width:680px;
 }
 #flash div, .notice {
 padding:20px 15px 20px 65px;
@@ -192,12 +194,8 @@ background:#fff483 url(../images/warning.png) no-repeat scroll 10px center;
 #flash .error {
 background:#f9c5c1 url(../images/error.png) no-repeat scroll 10px center;
 }
-#flash .alert,
-#flash .info {
-background:#EEEEFF url(../images/info.png) no-repeat scroll 10px center;
-}
-.notice {
-background:#EEEEFF url(../images/info.png) no-repeat scroll 10px center;
+#flash .alert, #flash .info, .notice {
+    background:#EEEEFF url(../images/info.png) no-repeat scroll 10px center;
 }
 .fielderror {
 color:red;
@@ -205,8 +203,4 @@ font-weight:bold;
 }
 div.clearingdiv {
 clear:both;
-}
-
-form li {
-  list-style: none;
 }

@@ -13,6 +13,7 @@
   </fieldset>
   <fieldset>
     <h2><span>Punchcard</span></h2>
+    <label>Generate a punchard chart of common smoking times</label>
     <input type='submit' name='punchcard' id='punch_submit' class='submit' value='Generate' />
   </fieldset>
   <%include file='local:templates.user_picker'/>
