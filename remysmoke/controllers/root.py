@@ -47,12 +47,20 @@ class RootController(BaseController):
     def pick_a_user(self, user_name=None):
         public_users = DBSession.query(User).filter_by(public=True)
         all_public = public_users.all()
+
+        # The currently logged in user should be selectable regardless of
+        # publicity.
+        if request.identity:
+            authenticated_user = request.identity['user']
+            if authenticated_user not in all_public:
+                all_public.append(authenticated_user)
+
+        # Try to use a provided user name.
         try:
-            user = public_users.filter_by(user_name=user_name).one()
+            user = public_users.filter_by(display_name=user_name).one()
         except Exception:
             if request.identity:
-                user = request.identity['user']
-                all_public.append(user)
+                user = authenticated_user
             else:
                 user = public_users.first()
         return all_public, user
