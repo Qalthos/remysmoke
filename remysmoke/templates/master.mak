@@ -64,6 +64,7 @@
           % else:
             <li id="admin"><a href="${tg.url('/smoke')}">Add Smoke</a></li>
             <li id="login" class="loginlogout"><a href="${tg.url('/logout_handler')}">Logout</a></li>
+            <li id="user" class="loginlogout"><a href="${tg.url('/login')}">${request.identity['user'].display_name}</a></li>
           % endif
         </span>
       % endif
