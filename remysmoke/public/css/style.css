@@ -307,3 +307,19 @@ form li {
 form li div {
   display: inline-block;
 }
+
+/* Chart selection forms */
+form.chart {
+    width:100%;
+}
+form.user_pick {
+    float:right;
+}
+fieldset {
+    width:270px;
+    display:inline;
+    float:left;
+    margin:-4px;
+    padding:0;
+    border:0;
+}
